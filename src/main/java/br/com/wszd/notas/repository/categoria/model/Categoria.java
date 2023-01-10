@@ -1,4 +1,4 @@
-package br.com.wszd.notas.repository.pessoa;
+package br.com.wszd.notas.repository.categoria.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "ws_pessoa", schema = "noteswszd")
+@Table(name = "ws_categoria", schema = "noteswszd")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pessoa {
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +19,4 @@ public class Pessoa {
 
     @Column(name = "name")
     private String nome;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "senha")
-    private String password;
-
 }

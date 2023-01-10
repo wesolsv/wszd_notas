@@ -1,6 +1,6 @@
 package br.com.wszd.notas.repository.atividade.model;
 
-import br.com.wszd.notas.repository.pessoa.Pessoa;
+import br.com.wszd.notas.repository.pessoa.model.Pessoa;
 import br.com.wszd.notas.util.StatusAtividade;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Entity
@@ -33,6 +32,6 @@ public class Atividade {
     @Column(name = "status")
     private StatusAtividade status;
 
-    @Column(name = "ws_pessoa_id")
+    @Column(name = "pessoa_id")
     private Pessoa pessoa;
 }

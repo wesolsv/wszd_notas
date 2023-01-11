@@ -1,6 +1,5 @@
-package br.com.wszd.notas.repository.atividade.model;
+package br.com.wszd.notas.entity;
 
-import br.com.wszd.notas.repository.pessoa.model.Pessoa;
 import br.com.wszd.notas.util.StatusAtividade;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;

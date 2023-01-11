@@ -1,4 +1,4 @@
-package br.com.wszd.notas.repository.categoria.model;
+package br.com.wszd.notas.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

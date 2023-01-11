@@ -1,7 +1,5 @@
-package br.com.wszd.notas.repository.nota.model;
+package br.com.wszd.notas.entity;
 
-import br.com.wszd.notas.repository.categoria.model.Categoria;
-import br.com.wszd.notas.repository.pessoa.model.Pessoa;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

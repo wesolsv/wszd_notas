@@ -36,9 +36,11 @@ public class Nota {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape= JsonFormat.Shape.STRING)
     private LocalDateTime dataAlteracao;
 
-    @Column(name = "pessoa_id")
+    @ManyToOne
+    @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
-    @Column(name = "categoria_id")
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 }

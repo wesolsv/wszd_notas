@@ -32,6 +32,7 @@ public class Atividade {
     @Column(name = "status")
     private StatusAtividade status;
 
-    @Column(name = "pessoa_id")
+    @ManyToOne
+    @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 }

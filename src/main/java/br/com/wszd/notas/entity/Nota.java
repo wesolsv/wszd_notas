@@ -2,17 +2,10 @@ package br.com.wszd.notas.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 
-@Data
 @Entity
 @Table(name = "ws_notas")
-@NoArgsConstructor
-@AllArgsConstructor
 public class Nota {
 
     @Id
@@ -41,4 +34,73 @@ public class Nota {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
+
+    public Nota() {
+    }
+
+    public Nota(Long id, String nome, String conteudo, LocalDateTime dataCriaco, LocalDateTime dataAlteracao, Pessoa pessoa, Categoria categoria) {
+        this.id = id;
+        this.nome = nome;
+        this.conteudo = conteudo;
+        this.dataCriaco = dataCriaco;
+        this.dataAlteracao = dataAlteracao;
+        this.pessoa = pessoa;
+        this.categoria = categoria;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getConteudo() {
+        return conteudo;
+    }
+
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
+    }
+
+    public LocalDateTime getDataCriaco() {
+        return dataCriaco;
+    }
+
+    public void setDataCriaco(LocalDateTime dataCriaco) {
+        this.dataCriaco = dataCriaco;
+    }
+
+    public LocalDateTime getDataAlteracao() {
+        return dataAlteracao;
+    }
+
+    public void setDataAlteracao(LocalDateTime dataAlteracao) {
+        this.dataAlteracao = dataAlteracao;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 }

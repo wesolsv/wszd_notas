@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "ws_notas", schema = "noteswszd")
+@Table(name = "ws_notas")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Nota {

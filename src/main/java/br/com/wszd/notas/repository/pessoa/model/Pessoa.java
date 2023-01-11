@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "ws_pessoa", schema = "noteswszd")
+@Table(name = "ws_pessoa")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Pessoa {
@@ -17,7 +17,7 @@ public class Pessoa {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "nome")
     private String nome;
 
     @Column(name = "email")

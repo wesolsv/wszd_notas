@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name = "ws_categoria", schema = "noteswszd")
+@Table(name = "ws_categoria")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Categoria {

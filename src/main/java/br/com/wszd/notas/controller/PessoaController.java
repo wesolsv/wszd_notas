@@ -20,7 +20,7 @@ public class PessoaController {
     private PessoaService service;
 
     @GetMapping
-    private List<Pessoa> listarTodasPessoas (){
+    private List<PessoaDTO> listarTodasPessoas (){
         return service.listarTodasPessoas();
     }
 

@@ -16,8 +16,8 @@ public class PessoaService {
     @Autowired
     private PessoaRepository repository;
 
-    public List<Pessoa> listarTodasPessoas(){
-        return repository.findAll();
+    public List<PessoaDTO> listarTodasPessoas(){
+        return repository.listaPessoas();
     }
 
     public PessoaDTO pegarPessoa(Long id){

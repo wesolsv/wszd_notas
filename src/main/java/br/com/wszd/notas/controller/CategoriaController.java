@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/nota")
+@RequestMapping("api/v1/categoria")
 public class CategoriaController {
 
     @Autowired

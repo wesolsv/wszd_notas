@@ -19,7 +19,7 @@ public class Pessoa {
     private String email;
 
     @Column(name = "senha")
-    private String password;
+    private String senha;
 
     public Pessoa() {
     }
@@ -28,7 +28,7 @@ public class Pessoa {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.password = password;
+        this.senha = password;
     }
 
     public Long getId() {
@@ -55,11 +55,11 @@ public class Pessoa {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }

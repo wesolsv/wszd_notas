@@ -1,6 +1,8 @@
 package br.com.wszd.notas.service;
 
+import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.entity.Pessoa;
+import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +20,12 @@ public class PessoaService {
         return repository.findAll();
     }
 
-    public Optional<Pessoa> pegarPessoa(Long id){
-        return repository.findById(id);
+    public PessoaDTO pegarPessoa(Long id){
+
+        Pessoa pessoa = repository.findById(id).orElseThrow(
+                () -> new ResourceObjectNotFoundException("Pessoa não encontrada id = " + id ));
+
+        return new PessoaDTO(pessoa.getId(), pessoa.getNome(), pessoa.getEmail());
     }
 
     public Pessoa novaPessoa(Pessoa nova){

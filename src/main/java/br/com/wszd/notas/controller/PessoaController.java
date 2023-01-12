@@ -1,5 +1,6 @@
 package br.com.wszd.notas.controller;
 
+import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.entity.Pessoa;
 import br.com.wszd.notas.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,12 @@ public class PessoaController {
     }
 
     @GetMapping("/{id}")
-    private Optional<Pessoa> pegarPessoa (@PathVariable Long id){
-        return service.pegarPessoa(id);
+    private ResponseEntity<PessoaDTO> pegarPessoa (@PathVariable Long id){
+        PessoaDTO res = service.pegarPessoa(id);
+        if(res != null){
+            return ResponseEntity.ok(res);
+        }
+        return  ResponseEntity.notFound().build();
     }
 
     @PostMapping

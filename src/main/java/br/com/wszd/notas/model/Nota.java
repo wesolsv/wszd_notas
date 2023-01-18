@@ -36,17 +36,10 @@ public class Nota {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    public Nota() {
-    }
+    @Column(name = "categoria_nome")
+    private String categoriaNome;
 
-    public Nota(Long id, String nome, String conteudo, LocalDateTime dataCriaco, LocalDateTime dataAlteracao, Pessoa pessoa, Categoria categoria) {
-        this.id = id;
-        this.nome = nome;
-        this.conteudo = conteudo;
-        this.dataCriaco = dataCriaco;
-        this.dataAlteracao = dataAlteracao;
-        this.pessoa = pessoa;
-        this.categoria = categoria;
+    public Nota() {
     }
 
     public Long getId() {
@@ -103,5 +96,24 @@ public class Nota {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public String getCategoriaNome() {
+        return categoriaNome;
+    }
+
+    public void setCategoriaNome(String categoriaNome) {
+        this.categoriaNome = categoriaNome;
+    }
+
+    public Nota(Long id, String nome, String conteudo, LocalDateTime dataCriaco, LocalDateTime dataAlteracao, Pessoa pessoa, Categoria categoria, String categoriaNome) {
+        this.id = id;
+        this.nome = nome;
+        this.conteudo = conteudo;
+        this.dataCriaco = dataCriaco;
+        this.dataAlteracao = dataAlteracao;
+        this.pessoa = pessoa;
+        this.categoria = categoria;
+        this.categoriaNome = categoriaNome;
     }
 }

@@ -36,4 +36,8 @@ public class CategoriaService {
         pegarCategoria(id);
         repository.deleteById(id);
     }
+
+    public Categoria pegarCategoriaByName(String categoriaNome) {
+        return repository.pegarCategoriaByName(categoriaNome);
+    }
 }

@@ -12,14 +12,21 @@ public class Categoria {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "nome")
     private String nome;
 
-    public Categoria(Long id, String nome) {
+    @Column(name = "pessoa_id")
+    private Pessoa pessoa;
+
+    public Categoria(Long id, String nome, Pessoa pessoa) {
         this.id = id;
         this.nome = nome;
+        this.pessoa = pessoa;
     }
-    public Categoria(){
+
+    public Categoria(String padrao, Pessoa pessoa) {
+        this.nome = nome;
+        this.pessoa = pessoa;
     }
 
     public Long getId() {
@@ -37,6 +44,18 @@ public class Categoria {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Categoria(){
+    }
+
 }
 
 

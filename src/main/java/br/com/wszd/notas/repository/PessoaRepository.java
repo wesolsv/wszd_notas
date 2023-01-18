@@ -1,7 +1,7 @@
 package br.com.wszd.notas.repository;
 
 import br.com.wszd.notas.dto.PessoaDTO;
-import br.com.wszd.notas.entity.Pessoa;
+import br.com.wszd.notas.model.Pessoa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -1,6 +1,6 @@
 package br.com.wszd.notas.service;
 
-import br.com.wszd.notas.entity.Categoria;
+import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

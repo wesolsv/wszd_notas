@@ -1,6 +1,6 @@
 package br.com.wszd.notas.controller;
 
-import br.com.wszd.notas.entity.Nota;
+import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.service.NotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

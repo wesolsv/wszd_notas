@@ -1,6 +1,7 @@
-package br.com.wszd.notas.entity;
+package br.com.wszd.notas.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Entity

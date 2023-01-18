@@ -1,9 +1,9 @@
-package br.com.wszd.notas.entity;
+package br.com.wszd.notas.model;
 
 import br.com.wszd.notas.util.StatusAtividade;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity

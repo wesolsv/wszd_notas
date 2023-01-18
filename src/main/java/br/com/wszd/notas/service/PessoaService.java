@@ -1,14 +1,13 @@
 package br.com.wszd.notas.service;
 
 import br.com.wszd.notas.dto.PessoaDTO;
-import br.com.wszd.notas.entity.Pessoa;
+import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PessoaService {

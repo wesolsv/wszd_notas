@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
-    @Query("SELECT Categoria " +
+    @Query("SELECT c " +
             "FROM Categoria c WHERE c.nome = :categoriaNome")
     Categoria pegarCategoriaByName(@Param("categoriaNome") String categoriaNome);
 }

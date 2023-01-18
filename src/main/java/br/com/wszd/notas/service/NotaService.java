@@ -8,6 +8,7 @@ import br.com.wszd.notas.repository.NotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +37,13 @@ public class NotaService {
         if( cat !=  null){
             nova.setCategoria(cat);
         }else {
-            nova.setCategoria(categoriaService.novaCategoria(new Categoria(nova.getCategoriaNome(), nova.getPessoa())));
+            Categoria categoria = new Categoria(nova.getCategoriaNome(), nova.getPessoa());
+            nova.setCategoria(categoriaService.novaCategoria(categoria));
         }
+
+        nova.setDataCriaco(LocalDateTime.now());
+        nova.setDataAlteracao(LocalDateTime.now());
+
         return repository.save(nova);
     }
 

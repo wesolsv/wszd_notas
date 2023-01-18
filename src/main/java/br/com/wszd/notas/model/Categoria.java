@@ -15,7 +15,8 @@ public class Categoria {
     @Column(name = "nome")
     private String nome;
 
-    @Column(name = "pessoa_id")
+    @ManyToOne
+    @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
     public Categoria(Long id, String nome, Pessoa pessoa) {
@@ -24,7 +25,7 @@ public class Categoria {
         this.pessoa = pessoa;
     }
 
-    public Categoria(String padrao, Pessoa pessoa) {
+    public Categoria(String nome, Pessoa pessoa) {
         this.nome = nome;
         this.pessoa = pessoa;
     }

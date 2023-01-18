@@ -14,7 +14,7 @@ public class Nota {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "nome")
     private String nome;
 
     @Column(name = "conteudo")

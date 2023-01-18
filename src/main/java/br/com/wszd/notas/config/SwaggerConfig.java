@@ -24,9 +24,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
-                "Aplicação de Petshop para consultas",
+                "Aplicação bloco de notas e atividades",
                 "Api construida para repositorio",
-                "clinicawszd v1",
+                "wszd.notas v1",
                 "Terms of service",
                 "wesolsv@gmail.com",
                 "License of API",

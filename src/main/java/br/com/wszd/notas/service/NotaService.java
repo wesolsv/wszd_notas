@@ -30,30 +30,33 @@ public class NotaService {
     }
 
     public Nota novaNota(Nota nova){
-        if(nova.getCategoriaNome() == null || nova.getCategoriaNome() == ""){
-           nova.setCategoria(ajusteCategoria("", nova.getPessoa()));
-        }
-        Categoria cat = categoriaService.pegarCategoriaByName(nova.getCategoriaNome());
-        if( cat !=  null){
-            nova.setCategoria(cat);
-        }else {
-            Categoria categoria = new Categoria(nova.getCategoriaNome(), nova.getPessoa());
-            nova.setCategoria(categoriaService.novaCategoria(categoria));
-        }
+        Nota notaAjustada = ajusteCategoria(nova);
 
         nova.setDataCriaco(LocalDateTime.now());
         nova.setDataAlteracao(LocalDateTime.now());
+        notaAjustada.setCategoriaNome(notaAjustada.getCategoria().getNome());
 
         return repository.save(nova);
     }
 
-    public Categoria ajusteCategoria(String categoriaNome, Pessoa pessoa){
-        Categoria cat = categoriaService.pegarCategoriaByName("PADRAO");
-        if(cat != null){
-            return cat;
+    public Nota ajusteCategoria(Nota nova){
+        if(nova.getCategoriaNome() == null || nova.getCategoriaNome().equals("")){
+            Categoria padraoCat = categoriaService.pegarCategoriaByName("PADRAO", nova.getPessoa());
+            if(padraoCat != null){
+                nova.setCategoria(padraoCat);
+            }else{
+                padraoCat = new Categoria("PADRAO", nova.getPessoa());
+                categoriaService.novaCategoria(padraoCat);
+                nova.setCategoria(padraoCat);
+            }
         }
-        return categoriaService.novaCategoria(new Categoria("PADRAO", pessoa));
+        nova.setCategoriaNome(nova.getCategoria().getNome());
+        return nova;
     }
+
+
+
+
 
     public Nota editarNota(Long id, Nota nova){
         pegarNota(id);

@@ -1,6 +1,7 @@
 package br.com.wszd.notas.service;
 
 import br.com.wszd.notas.model.Categoria;
+import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class CategoriaService {
         repository.deleteById(id);
     }
 
-    public Categoria pegarCategoriaByName(String categoriaNome) {
-        return repository.pegarCategoriaByName(categoriaNome);
+    public Categoria pegarCategoriaByName(String categoriaNome, Pessoa pessoa) {
+        return repository.pegarCategoriaByName(categoriaNome, pessoa);
     }
 }

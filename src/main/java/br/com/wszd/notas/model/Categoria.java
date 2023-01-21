@@ -1,5 +1,7 @@
 package br.com.wszd.notas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -16,6 +18,7 @@ public class Categoria {
     private String nome;
 
     @ManyToOne
+    @JsonIgnoreProperties("pessoa")
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 

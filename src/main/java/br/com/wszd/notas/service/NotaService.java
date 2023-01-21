@@ -1,9 +1,9 @@
 package br.com.wszd.notas.service;
 
+import br.com.wszd.notas.dto.NotaDTO;
+import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Nota;
-import br.com.wszd.notas.model.Pessoa;
-import br.com.wszd.notas.repository.CategoriaRepository;
 import br.com.wszd.notas.repository.NotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +21,16 @@ public class NotaService {
     @Autowired
     private CategoriaService categoriaService;
 
-    public List<Nota> listarTodasNotas(){
-        return repository.findAll();
+    public List<NotaDTO> listarTodasNotas(){
+        return repository.pegarTodasNotas();
     }
 
-    public Optional<Nota> pegarNota(Long id){
-        return repository.findById(id);
+    public NotaDTO pegarNota(Long id){
+        try{
+            return repository.pegarNota(id);
+        }catch(ResourceObjectNotFoundException e){
+            throw new ResourceObjectNotFoundException("Não encontrada com id = " + id);
+        }
     }
 
     public Nota novaNota(Nota nova){
@@ -53,10 +57,6 @@ public class NotaService {
         nova.setCategoriaNome(nova.getCategoria().getNome());
         return nova;
     }
-
-
-
-
 
     public Nota editarNota(Long id, Nota nova){
         pegarNota(id);

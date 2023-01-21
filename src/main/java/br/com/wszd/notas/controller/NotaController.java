@@ -1,5 +1,6 @@
 package br.com.wszd.notas.controller;
 
+import br.com.wszd.notas.dto.NotaDTO;
 import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.service.NotaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,12 @@ public class NotaController {
     private NotaService service;
 
     @GetMapping
-    private List<Nota> listarTodasNotas (){
+    private List<NotaDTO> listarTodasNotas (){
         return service.listarTodasNotas();
     }
 
     @GetMapping("/{id}")
-    private Optional<Nota> pegarPessoa (@PathVariable Long id){
+    private NotaDTO pegarPessoa (@PathVariable Long id){
         return service.pegarNota(id);
     }
 

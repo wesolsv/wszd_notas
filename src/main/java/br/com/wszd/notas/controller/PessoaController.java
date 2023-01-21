@@ -1,7 +1,6 @@
 package br.com.wszd.notas.controller;
 
 import br.com.wszd.notas.dto.PessoaDTO;
-import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +32,8 @@ public class PessoaController {
     }
 
     @PostMapping
-    private ResponseEntity<Pessoa> novaPessoa(@RequestBody Pessoa nova){
-        Pessoa res = service.novaPessoa(nova);
+    private ResponseEntity<br.com.wszd.notas.model.Pessoa> novaPessoa(@RequestBody br.com.wszd.notas.model.Pessoa nova){
+        br.com.wszd.notas.model.Pessoa res = service.novaPessoa(nova);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -44,8 +43,8 @@ public class PessoaController {
     }
 
     @PutMapping("/{id}")
-    private ResponseEntity<Pessoa> editarPessoa(@PathVariable Long id, @RequestBody Pessoa nova){
-        Pessoa res = service.editarPessoa(id, nova);
+    private ResponseEntity<br.com.wszd.notas.model.Pessoa> editarPessoa(@PathVariable Long id, @RequestBody br.com.wszd.notas.model.Pessoa nova){
+        br.com.wszd.notas.model.Pessoa res = service.editarPessoa(id, nova);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

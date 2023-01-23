@@ -1,48 +1,34 @@
-package br.com.wszd.notas.model;
+package br.com.wszd.notas.dto;
 
+import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.util.StatusAtividade;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "ws_atividades")
-public class Atividade {
+public class AtividadeDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "nome")
     private String nome;
 
-    @Column(name = "conteudo")
     private String conteudo;
 
-    @Column(name = "data_lembrete")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape= JsonFormat.Shape.STRING)
     private LocalDateTime dataLembrete;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
     private StatusAtividade status;
 
-    @ManyToOne
-    @JoinColumn(name = "pessoa_id")
-    private Pessoa pessoa;
-
-    public Atividade() {
+    public AtividadeDTO() {
     }
 
-    public Atividade(Long id, String nome, String conteudo, LocalDateTime dataLembrete, StatusAtividade status, Pessoa pessoa) {
+    public AtividadeDTO(Long id, String nome, String conteudo, LocalDateTime dataLembrete, StatusAtividade status) {
         this.id = id;
         this.nome = nome;
         this.conteudo = conteudo;
         this.dataLembrete = dataLembrete;
         this.status = status;
-        this.pessoa = pessoa;
     }
 
     public Long getId() {
@@ -83,13 +69,5 @@ public class Atividade {
 
     public void setStatus(StatusAtividade status) {
         this.status = status;
-    }
-
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
     }
 }

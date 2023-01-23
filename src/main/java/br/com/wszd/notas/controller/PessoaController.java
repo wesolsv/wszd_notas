@@ -24,7 +24,7 @@ public class PessoaController {
 
     @GetMapping("/{id}")
     private ResponseEntity<PessoaDTO> pegarPessoa (@PathVariable Long id){
-        PessoaDTO res = service.pegarPessoa(id);
+        PessoaDTO res = service.pegarPessoaDTO(id);
         if(res != null){
             return ResponseEntity.ok(res);
         }

@@ -3,6 +3,7 @@ package br.com.wszd.notas.service;
 import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
+import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.repository.PessoaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,20 @@ public class PessoaService {
         return repository.listaPessoas();
     }
 
-    public PessoaDTO pegarPessoa(Long id){
+    public PessoaDTO pegarPessoaDTO(Long id){
 
-        br.com.wszd.notas.model.Pessoa pessoa = repository.findById(id).orElseThrow(
+        Pessoa pessoa = repository.findById(id).orElseThrow(
                 () -> new ResourceObjectNotFoundException("Pessoa não encontrada id = " + id ));
 
         return new PessoaDTO(pessoa.getId(), pessoa.getNome(), pessoa.getEmail());
     }
 
-    public br.com.wszd.notas.model.Pessoa novaPessoa(br.com.wszd.notas.model.Pessoa nova){
+    public Pessoa pegarPessoa(Long id) {
+        return repository.findById(id).orElseThrow(
+                () -> new ResourceObjectNotFoundException("Pessoa não encontrada"));
+    }
+
+    public Pessoa novaPessoa(Pessoa nova){
         log.info("Adicionando nova pessoa!");
         if(repository.findByEmail(nova.getEmail()) != null){
             throw new ResourceBadRequestException("Email já cadastrado, verfique seus dados");
@@ -37,7 +43,7 @@ public class PessoaService {
         return repository.save(nova);
     }
 
-    public br.com.wszd.notas.model.Pessoa editarPessoa(Long id, br.com.wszd.notas.model.Pessoa nova){
+    public Pessoa editarPessoa(Long id, Pessoa nova){
         pegarPessoa(id);
         nova.setId(id);
         return repository.save(nova);

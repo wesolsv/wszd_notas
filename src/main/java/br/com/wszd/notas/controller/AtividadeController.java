@@ -1,5 +1,6 @@
 package br.com.wszd.notas.controller;
 
+import br.com.wszd.notas.dto.AtividadeDTO;
 import br.com.wszd.notas.model.Atividade;
 import br.com.wszd.notas.service.AtividadeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,13 @@ public class AtividadeController {
     private AtividadeService service;
 
     @GetMapping
-    private List<Atividade> listarTodasAtividades (){
+    private List<AtividadeDTO> listarTodasAtividades (){
         return service.listarTodasAtividades();
     }
 
     @GetMapping("/{id}")
-    private Optional<Atividade> pegarAtividade (@PathVariable Long id){
-        return service.pegarAtividade(id);
+    private AtividadeDTO pegarAtividade (@PathVariable Long id){
+        return service.pegarAtividadeDTO(id);
     }
 
     @PostMapping

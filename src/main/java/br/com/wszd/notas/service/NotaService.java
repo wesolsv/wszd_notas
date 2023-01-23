@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class NotaService {
@@ -33,10 +32,15 @@ public class NotaService {
         }
     }
 
+    public Nota pegarNotaCompleta(Long id){
+        return repository.findById(id).orElseThrow(
+                () -> new ResourceObjectNotFoundException("Nota não encontrada"));
+    }
+
     public Nota novaNota(Nota nova){
         Nota notaAjustada = ajusteCategoria(nova);
 
-        nova.setDataCriaco(LocalDateTime.now());
+        nova.setDataCriacao(LocalDateTime.now());
         nova.setDataAlteracao(LocalDateTime.now());
         notaAjustada.setCategoriaNome(notaAjustada.getCategoria().getNome());
 
@@ -59,13 +63,13 @@ public class NotaService {
     }
 
     public Nota editarNota(Long id, Nota nova){
-        pegarNota(id);
+        pegarNotaCompleta(id);
         nova.setId(id);
         return repository.save(nova);
     }
 
     public void deletarNota(Long id){
-        pegarNota(id);
+        pegarNotaCompleta(id);
         repository.deleteById(id);
     }
 }

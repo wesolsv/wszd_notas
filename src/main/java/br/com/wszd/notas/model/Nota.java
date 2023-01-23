@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ws_notas")
@@ -24,7 +23,7 @@ public class Nota {
 
     @Column(name = "data_criacao")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape= JsonFormat.Shape.STRING)
-    private LocalDateTime dataCriaco;
+    private LocalDateTime dataCriacao;
 
     @Column(name = "data_alteracao")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape= JsonFormat.Shape.STRING)
@@ -70,12 +69,12 @@ public class Nota {
         this.conteudo = conteudo;
     }
 
-    public LocalDateTime getDataCriaco() {
-        return dataCriaco;
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
     }
 
-    public void setDataCriaco(LocalDateTime dataCriaco) {
-        this.dataCriaco = dataCriaco;
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     public LocalDateTime getDataAlteracao() {
@@ -110,11 +109,11 @@ public class Nota {
         this.categoriaNome = categoriaNome;
     }
 
-    public Nota(Long id, String nome, String conteudo, LocalDateTime dataCriaco, LocalDateTime dataAlteracao, Pessoa pessoa, Categoria categoria, String categoriaNome) {
+    public Nota(Long id, String nome, String conteudo, LocalDateTime dataCriacao, LocalDateTime dataAlteracao, Pessoa pessoa, Categoria categoria, String categoriaNome) {
         this.id = id;
         this.nome = nome;
         this.conteudo = conteudo;
-        this.dataCriaco = dataCriaco;
+        this.dataCriacao = dataCriacao;
         this.dataAlteracao = dataAlteracao;
         this.pessoa = pessoa;
         this.categoria = categoria;

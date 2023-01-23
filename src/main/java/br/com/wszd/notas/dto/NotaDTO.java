@@ -1,7 +1,6 @@
 package br.com.wszd.notas.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +13,7 @@ public class NotaDTO {
     private String conteudo;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape= JsonFormat.Shape.STRING)
-    private LocalDateTime dataCriaco;
+    private LocalDateTime dataCriacao;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", shape= JsonFormat.Shape.STRING)
     private LocalDateTime dataAlteracao;
@@ -28,7 +27,7 @@ public class NotaDTO {
         this.id = id;
         this.nome = nome;
         this.conteudo = conteudo;
-        this.dataCriaco = dataCriaco;
+        this.dataCriacao = dataCriaco;
         this.dataAlteracao = dataAlteracao;
         this.categoriaNome = categoriaNome;
     }
@@ -58,11 +57,11 @@ public class NotaDTO {
     }
 
     public LocalDateTime getDataCriaco() {
-        return dataCriaco;
+        return dataCriacao;
     }
 
     public void setDataCriaco(LocalDateTime dataCriaco) {
-        this.dataCriaco = dataCriaco;
+        this.dataCriacao = dataCriaco;
     }
 
     public LocalDateTime getDataAlteracao() {

@@ -9,7 +9,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/categoria")
@@ -24,7 +23,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    private Optional<Categoria> pegarCategoria (@PathVariable Long id){
+    private Categoria pegarCategoria (@PathVariable Long id){
         return service.pegarCategoria(id);
     }
 

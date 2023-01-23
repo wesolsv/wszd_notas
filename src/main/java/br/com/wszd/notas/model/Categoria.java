@@ -18,8 +18,8 @@ public class Categoria {
     private String nome;
 
     @ManyToOne
-    @JsonIgnoreProperties("pessoa")
     @JoinColumn(name = "pessoa_id")
+    @JsonIgnoreProperties({"senha","email"})
     private Pessoa pessoa;
 
     public Categoria(Long id, String nome, Pessoa pessoa) {

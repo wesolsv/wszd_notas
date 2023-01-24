@@ -1,5 +1,7 @@
 package br.com.wszd.notas.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -22,14 +24,19 @@ public class Pessoa {
     @Column(name = "senha")
     private String senha;
 
+    @OneToOne(mappedBy = "pessoa")
+    @JsonIgnoreProperties("personId")
+    private Usuario usuario;
+
     public Pessoa() {
     }
 
-    public Pessoa(Long id, String nome, String email, String password) {
+    public Pessoa(Long id, String nome, String email, String senha, Usuario usuario) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.senha = password;
+        this.senha = senha;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -62,5 +69,13 @@ public class Pessoa {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

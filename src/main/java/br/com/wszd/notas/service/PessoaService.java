@@ -4,11 +4,14 @@ import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Pessoa;
+import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.PessoaRepository;
+import br.com.wszd.notas.repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,6 +20,9 @@ public class PessoaService {
 
     @Autowired
     private PessoaRepository repository;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     public List<PessoaDTO> listarTodasPessoas(){
         return repository.listaPessoas();
@@ -37,6 +43,7 @@ public class PessoaService {
 
     public Pessoa novaPessoa(Pessoa nova){
         log.info("Adicionando nova pessoa!");
+
         if(repository.findByEmail(nova.getEmail()) != null){
             throw new ResourceBadRequestException("Email já cadastrado, verfique seus dados");
         }

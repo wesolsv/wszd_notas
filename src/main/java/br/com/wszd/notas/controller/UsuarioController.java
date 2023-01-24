@@ -15,7 +15,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
     @PostMapping
-    public void postUser(@RequestBody Usuario user){
+    public void novoUsuario(@RequestBody Usuario user){
         service.novoUsuario(user);
     }
 }

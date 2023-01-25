@@ -67,18 +67,21 @@ public class PessoaService {
 
     public Pessoa editarPessoa(Long id, Pessoa nova){
         Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         ValidacaoEmailUsuario.validarEmailUsuario(pegarPessoa(id), usuarioService.findUserByName(email.toString()));
 
         nova.setSenha(passwordEncoder().encode(nova.getSenha()));
         nova.setId(id);
         Pessoa pessoaNova = repository.save(nova);
-        usuarioService.novoUsuario(pessoaNova);
+
+        usuarioService.editUser(pessoaNova);
 
         return pessoaNova;
     }
 
     public void deletarPessoa(Long id){
+        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        ValidacaoEmailUsuario.validarEmailUsuario(pegarPessoa(id), usuarioService.findUserByName(email.toString()));
         pegarPessoa(id);
         repository.deleteById(id);
     }

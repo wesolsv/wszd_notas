@@ -105,8 +105,12 @@ public class UsuarioService {
         }
     }
 
-    public void editUser(Usuario usuario) {
+    public void editUser(Pessoa pessoa) {
         log.info("Editando usuario");
+        Usuario usuario = repository.findByNomeUsuario(pessoa.getEmail());
+        usuario.setPessoa(pessoa);
+        usuario.setNomeUsuario(pessoa.getEmail());
+        usuario.setSenha(pessoa.getSenha());
         repository.save(usuario);
     }
 

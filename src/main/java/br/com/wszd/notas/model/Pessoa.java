@@ -22,7 +22,7 @@ public class Pessoa {
     @Column(name = "senha")
     private String senha;
 
-    @OneToOne(mappedBy = "pessoa")
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("pessoa")
     private Usuario usuario;
 

@@ -7,8 +7,10 @@ import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.PessoaRepository;
 import br.com.wszd.notas.repository.UsuarioRepository;
+import br.com.wszd.notas.util.ValidacaoEmailUsuario;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,9 +66,16 @@ public class PessoaService {
     }
 
     public Pessoa editarPessoa(Long id, Pessoa nova){
-        pegarPessoa(id);
+        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        ValidacaoEmailUsuario.validarEmailUsuario(pegarPessoa(id), usuarioService.findUserByName(email.toString()));
+
+        nova.setSenha(passwordEncoder().encode(nova.getSenha()));
         nova.setId(id);
-        return repository.save(nova);
+        Pessoa pessoaNova = repository.save(nova);
+        usuarioService.novoUsuario(pessoaNova);
+
+        return pessoaNova;
     }
 
     public void deletarPessoa(Long id){

@@ -9,6 +9,7 @@ import br.com.wszd.notas.repository.PessoaRepository;
 import br.com.wszd.notas.repository.UsuarioRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +25,10 @@ public class PessoaService {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    private BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
     public List<PessoaDTO> listarTodasPessoas(){
         return repository.listaPessoas();
@@ -48,6 +53,8 @@ public class PessoaService {
         if(repository.findByEmail(nova.getEmail()) != null){
             throw new ResourceBadRequestException("Email já cadastrado, verfique seus dados");
         }
+
+        nova.setSenha(passwordEncoder().encode(nova.getSenha()));
 
         Pessoa pessoaNova = repository.save(nova);
 

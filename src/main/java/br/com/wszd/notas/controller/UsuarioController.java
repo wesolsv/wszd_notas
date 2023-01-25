@@ -16,6 +16,6 @@ public class UsuarioController {
     private UsuarioService service;
     @PostMapping
     public void novoUsuario(@RequestBody Usuario user){
-        service.novoUsuario(user);
+        service.newUser(user);
     }
 }

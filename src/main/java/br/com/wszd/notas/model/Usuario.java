@@ -3,7 +3,6 @@ package br.com.wszd.notas.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,6 +34,12 @@ public class Usuario {
         this.nomeUsuario = nomeUsuario;
         this.senha = senha;
         this.roles = roles;
+    }
+
+    public Usuario( String nomeUsuario, String senha, Pessoa pessoa) {
+        this.nomeUsuario = nomeUsuario;
+        this.senha = senha;
+        this.pessoa = pessoa;
     }
 
     public Long getId() {

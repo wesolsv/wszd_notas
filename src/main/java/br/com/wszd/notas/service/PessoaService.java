@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -41,13 +42,18 @@ public class PessoaService {
                 () -> new ResourceObjectNotFoundException("Pessoa não encontrada"));
     }
 
-    public Pessoa novaPessoa(Pessoa nova){
+    public PessoaDTO novaPessoa(Pessoa nova){
         log.info("Adicionando nova pessoa!");
 
         if(repository.findByEmail(nova.getEmail()) != null){
             throw new ResourceBadRequestException("Email já cadastrado, verfique seus dados");
         }
-        return repository.save(nova);
+
+        Pessoa pessoaNova = repository.save(nova);
+
+        usuarioService.novoUsuario(pessoaNova);
+
+        return new PessoaDTO(pessoaNova.getId(), pessoaNova.getNome(), pessoaNova.getEmail());
     }
 
     public Pessoa editarPessoa(Long id, Pessoa nova){

@@ -3,8 +3,6 @@ package br.com.wszd.notas.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-
 
 @Entity
 @Table(name = "ws_pessoa")
@@ -25,7 +23,7 @@ public class Pessoa {
     private String senha;
 
     @OneToOne(mappedBy = "pessoa")
-    @JsonIgnoreProperties("personId")
+    @JsonIgnoreProperties("pessoa")
     private Usuario usuario;
 
     public Pessoa() {

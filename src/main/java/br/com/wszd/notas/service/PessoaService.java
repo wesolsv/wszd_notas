@@ -49,6 +49,15 @@ public class PessoaService {
                 () -> new ResourceObjectNotFoundException("Pessoa não encontrada"));
     }
 
+    public PessoaDTO pessoaByEmail(String email){
+        PessoaDTO pessoa = repository.findByEmail(email);
+        if( pessoa == null){
+            throw new ResourceBadRequestException("Usuário não encontrado");
+        }
+
+        return pessoa;
+    }
+
     public PessoaDTO novaPessoa(Pessoa nova){
         log.info("Adicionando nova pessoa!");
 

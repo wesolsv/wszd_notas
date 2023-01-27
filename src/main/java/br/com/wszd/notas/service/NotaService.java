@@ -107,5 +107,16 @@ public class NotaService {
         pegarNotaCompleta(id);
         repository.deleteById(id);
     }
+
+    public void deletarTodasNotasCategoria(String nomeCategoria){
+
+        List<NotaDTO> notas = repository.pegarTodasNotasCategoria(nomeCategoria.toUpperCase());
+
+        if(!notas.isEmpty()){
+            notas.forEach(notaDTO -> {
+                repository.deleteById(notaDTO.getId());
+            });
+        }
+    }
 }
 

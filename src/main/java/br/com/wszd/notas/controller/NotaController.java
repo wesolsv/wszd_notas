@@ -55,4 +55,9 @@ public class NotaController {
     private void deleteNota(@PathVariable Long id){
         service.deletarNota(id);
     }
+
+    @DeleteMapping()
+    private void deleteTodasNotasCategoria(@RequestBody String categoriaNome){
+        service.deletarTodasNotasCategoria(categoriaNome);
+    }
 }

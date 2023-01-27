@@ -15,6 +15,10 @@ public interface NotaRepository extends JpaRepository<Nota, Long> {
     List<NotaDTO> pegarTodasNotas();
 
     @Query("SELECT new br.com.wszd.notas.dto.NotaDTO(n.id, n.nome, n.conteudo, n.dataCriacao, n.dataAlteracao, n.categoriaNome) " +
+            "FROM Nota n WHERE n.categoriaNome = :nomeCategoria")
+    List<NotaDTO> pegarTodasNotasCategoria(@Param("nomeCategoria")String nomeCategoria);
+
+    @Query("SELECT new br.com.wszd.notas.dto.NotaDTO(n.id, n.nome, n.conteudo, n.dataCriacao, n.dataAlteracao, n.categoriaNome) " +
             "FROM Nota n " +
             "WHERE n.id = :id")
     NotaDTO pegarNota(@Param("id") Long id);

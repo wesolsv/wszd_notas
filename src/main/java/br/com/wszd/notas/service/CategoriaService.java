@@ -19,10 +19,10 @@ public class CategoriaService {
     private CategoriaRepository repository;
 
     @Autowired
-    PessoaService pessoaService;
+    private PessoaService pessoaService;
 
     @Autowired
-    NotaService notaService;
+    private NotaService notaService;
 
     public List<Categoria> listarTodasCategorias(){
         return repository.findAll();
@@ -58,5 +58,9 @@ public class CategoriaService {
     public void deletarCategoria(Long id){
         notaService.deletarTodasNotasCategoria(pegarCategoria(id).getNome().toUpperCase());
         repository.deleteById(id);
+    }
+
+    public List<Categoria> listarCategoriasPessoa(Pessoa pessoa) {
+        return repository.listarCategoriasPessoa(pessoa);
     }
 }

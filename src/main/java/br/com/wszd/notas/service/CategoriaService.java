@@ -21,6 +21,9 @@ public class CategoriaService {
     @Autowired
     PessoaService pessoaService;
 
+    @Autowired
+    NotaService notaService;
+
     public List<Categoria> listarTodasCategorias(){
         return repository.findAll();
     }
@@ -53,7 +56,7 @@ public class CategoriaService {
     }
 
     public void deletarCategoria(Long id){
-        pegarCategoria(id);
+        notaService.deletarTodasNotasCategoria(pegarCategoria(id).getNome().toUpperCase());
         repository.deleteById(id);
     }
 }

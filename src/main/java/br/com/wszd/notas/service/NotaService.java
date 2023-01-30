@@ -8,6 +8,7 @@ import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.repository.NotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class NotaService {
     @Autowired
     private NotaRepository repository;
 
+    @Lazy
     @Autowired
     private CategoriaService categoriaService;
 

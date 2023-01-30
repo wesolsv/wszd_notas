@@ -33,7 +33,7 @@ public class UsuarioService {
     }
 
     public void novoUsuario(Pessoa pessoa){
-        List<Long> listIdRoles = Arrays.asList(1L, 2L);
+        List<Long> listIdRoles = Arrays.asList(1L);
         Usuario usuario = repository.save(new Usuario(pessoa.getEmail(), pessoa.getSenha(), pessoa));
         //Criando e atribuindo a role ao user
         UserRoleDTO userRoleDTO = new UserRoleDTO(usuario.getId(), listIdRoles);

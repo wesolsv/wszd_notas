@@ -120,5 +120,16 @@ public class NotaService {
             });
         }
     }
+
+    public void deletarTodasNotasIds(List<Long> ids){
+
+        List<NotaDTO> notas = repository.pegarTodasNotasIds(ids);
+
+        if(!notas.isEmpty()){
+            notas.forEach(notaDTO -> {
+                repository.deleteById(notaDTO.getId());
+            });
+        }
+    }
 }
 

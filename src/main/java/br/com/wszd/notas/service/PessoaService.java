@@ -103,6 +103,9 @@ public class PessoaService {
                 categoriaService.deletarCategoria(categoria.getId());
             });
         }
+
+        usuarioService.deleteUsuarioByNomeUsuario(pessoaByEmail(email.toString()));
+
         repository.deleteById(id);
     }
 }

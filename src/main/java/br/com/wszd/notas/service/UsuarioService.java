@@ -1,5 +1,6 @@
 package br.com.wszd.notas.service;
 
+import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.dto.SessaoDTO;
 import br.com.wszd.notas.dto.UserLoginDTO;
 import br.com.wszd.notas.dto.UserRoleDTO;
@@ -32,7 +33,7 @@ public class UsuarioService {
     }
 
     public void novoUsuario(Pessoa pessoa){
-        List<Long> listIdRoles = Arrays.asList(1L);
+        List<Long> listIdRoles = Arrays.asList(1L, 2L);
         Usuario usuario = repository.save(new Usuario(pessoa.getEmail(), pessoa.getSenha(), pessoa));
         //Criando e atribuindo a role ao user
         UserRoleDTO userRoleDTO = new UserRoleDTO(usuario.getId(), listIdRoles);
@@ -63,7 +64,7 @@ public class UsuarioService {
         List<Role> roles = new ArrayList<>();
 
         if (userExists.isEmpty()) {
-            throw new Error("User does not exists!");
+            throw new Error("Usuario não existe!");
         }
 
         roles = userRoleDTO.getIdsRoles().stream().map(role -> {
@@ -112,6 +113,11 @@ public class UsuarioService {
         usuario.setNomeUsuario(pessoa.getEmail());
         usuario.setSenha(pessoa.getSenha());
         repository.save(usuario);
+    }
+
+    public void deleteUsuarioByNomeUsuario(PessoaDTO pessoa) {
+        log.info("Deletando usuario");
+        repository.deleteById(findUserByName(pessoa.getEmail()).getId());
     }
 
     public void deleteUsuario(Long id) {

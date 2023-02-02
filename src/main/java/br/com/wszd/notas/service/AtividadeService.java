@@ -24,8 +24,20 @@ public class AtividadeService {
     private PessoaService pessoaService;
 
 
+    public List<Atividade> listAtividades(){
+        return repository.findAll();
+    }
+
     public List<AtividadeDTO> listarTodasAtividades(){
-        return repository.pegarTodasAtividades();
+        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
+        return repository.pegarTodasAtividades(pessoaService.pegarPessoa(pessoa.getId()));
+    }
+
+    public List<AtividadeDTO> listarTodasAtividadesPorStatus(StatusAtividade status){
+        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
+        return repository.listarTodasAtividadesPorStatus(pessoaService.pegarPessoa(pessoa.getId()), status);
     }
 
     public Atividade pegarAtividade(Long id){

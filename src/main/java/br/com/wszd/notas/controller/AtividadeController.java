@@ -3,6 +3,7 @@ package br.com.wszd.notas.controller;
 import br.com.wszd.notas.dto.AtividadeDTO;
 import br.com.wszd.notas.model.Atividade;
 import br.com.wszd.notas.service.AtividadeService;
+import br.com.wszd.notas.util.StatusAtividade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,11 @@ public class AtividadeController {
     @GetMapping
     private List<AtividadeDTO> listarTodasAtividades (){
         return service.listarTodasAtividades();
+    }
+
+    @GetMapping("/status")
+    private List<AtividadeDTO> listarTodasAtividadesPorStatus (@RequestBody StatusAtividade status){
+        return service.listarTodasAtividadesPorStatus(status);
     }
 
     @GetMapping("/{id}")

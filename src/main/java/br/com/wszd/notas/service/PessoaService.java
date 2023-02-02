@@ -5,9 +5,7 @@ import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Pessoa;
-import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.PessoaRepository;
-import br.com.wszd.notas.repository.UsuarioRepository;
 import br.com.wszd.notas.util.ValidacaoEmailUsuario;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service

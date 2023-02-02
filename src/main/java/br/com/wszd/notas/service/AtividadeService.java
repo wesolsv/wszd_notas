@@ -6,6 +6,7 @@ import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Atividade;
 import br.com.wszd.notas.repository.AtividadeRepository;
+import br.com.wszd.notas.util.StatusAtividade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,19 +34,47 @@ public class AtividadeService {
     }
 
     public AtividadeDTO pegarAtividadeDTO(Long id){
-        Atividade atividade = repository.findById(id).orElseThrow(
-                () -> new ResourceObjectNotFoundException("Atividade não encontrada"));;
+
+        validaRequisicao(id);
+        Atividade atividade = pegarAtividade(id);
+
         return new AtividadeDTO(atividade.getId(), atividade.getNome(), atividade.getConteudo(), atividade.getDataLembrete(), atividade.getStatus());
     }
 
     public Atividade novaAtividade(Atividade nova){
+
         if(nova.getDataLembrete() == null){
             nova.setDataLembrete(LocalDateTime.now());
         }
+        if(nova.getStatus() == null){
+            nova.setStatus(StatusAtividade.A);
+        }
+
         return repository.save(nova);
     }
 
     public Atividade editarAtividade(Long id, Atividade nova){
+        validaRequisicao(id);
+
+        Atividade atv = pegarAtividade(id);
+
+        atv.setNome(nova.getNome());
+        atv.setConteudo(nova.getConteudo());
+        if(nova.getDataLembrete() != null){
+            atv.setDataLembrete(nova.getDataLembrete());
+        }
+        return repository.save(atv);
+    }
+
+    public void cancelarAtividade(Long id){
+
+        validaRequisicao(id);
+        Atividade atv = pegarAtividade(id);
+        atv.setStatus(StatusAtividade.C);
+        repository.save(atv);
+    }
+
+    public boolean validaRequisicao(Long id){
         Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
 
@@ -54,18 +83,8 @@ public class AtividadeService {
         if(atv.getPessoa().getId() != pessoa.getId()){
             throw new ResourceBadRequestException("O usuário não tem acesso a esta atividade");
         }
-
-        atv.setNome(nova.getNome());
-        atv.setConteudo(nova.getConteudo());
-        atv.setDataLembrete(nova.getDataLembrete());
-        atv.setStatus(nova.getStatus());
-
-        return repository.save(atv);
+        return true;
     }
 
-    public void deletarAtividade(Long id){
-        pegarAtividade(id);
-        repository.deleteById(id);
-    }
 
 }

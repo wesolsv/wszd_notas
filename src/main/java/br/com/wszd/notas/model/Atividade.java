@@ -4,6 +4,7 @@ import br.com.wszd.notas.util.StatusAtividade;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,9 +16,11 @@ public class Atividade {
     @Column(name = "id")
     private Long id;
 
+    @NotNull(message = "O nome da atividade não pode ser nulo.")
     @Column(name = "nome")
     private String nome;
 
+    @NotNull(message = "O conteúdo não pode ser nulo.")
     @Column(name = "conteudo")
     private String conteudo;
 

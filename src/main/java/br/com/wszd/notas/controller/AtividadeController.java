@@ -10,7 +10,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/atividade")
@@ -53,6 +52,6 @@ public class AtividadeController {
 
     @DeleteMapping("/{id}")
     private void deleteAtividade(@PathVariable Long id){
-        service.deletarAtividade(id);
+        service.cancelarAtividade(id);
     }
 }

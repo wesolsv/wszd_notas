@@ -37,6 +37,7 @@ public class AtividadeService {
     public List<AtividadeDTO> listarTodasAtividadesPorStatus(StatusAtividade status){
         Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
+
         return repository.listarTodasAtividadesPorStatus(pessoaService.pegarPessoa(pessoa.getId()), status);
     }
 

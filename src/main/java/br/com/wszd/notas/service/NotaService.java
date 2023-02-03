@@ -5,7 +5,6 @@ import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceInternalException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
-import br.com.wszd.notas.model.Atividade;
 import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.repository.NotaRepository;
@@ -30,8 +29,14 @@ public class NotaService {
     @Autowired
     private PessoaService pessoaService;
 
+    public List<Nota> listarNotas(){
+        return repository.findAll();
+    }
+
     public List<NotaDTO> listarTodasNotas(){
-        return repository.pegarTodasNotas();
+        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
+        return repository.pegarTodasNotas(pessoaService.pegarPessoa(pessoa.getId()));
     }
 
     public NotaDTO pegarNota(Long id){

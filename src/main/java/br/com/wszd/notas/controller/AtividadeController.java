@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.net.URI;
 import java.util.List;
 
@@ -24,9 +26,11 @@ public class AtividadeController {
         return service.listarTodasAtividades();
     }
 
-    @GetMapping("/status")
-    private List<AtividadeDTO> listarTodasAtividadesPorStatus (@RequestBody StatusAtividade status){
-        return service.listarTodasAtividadesPorStatus(status);
+    @GetMapping("/bystatus")
+    private List<AtividadeDTO> listarTodasAtividadesPorStatus (@RequestParam String status){
+        StatusAtividade statusEnum;
+        statusEnum = StatusAtividade.valueOf(status);
+        return service.listarTodasAtividadesPorStatus(statusEnum);
     }
 
     @GetMapping("/{id}")

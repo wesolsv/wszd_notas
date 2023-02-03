@@ -64,7 +64,7 @@ public class NotaService {
         nova.setDataAlteracao(LocalDateTime.now());
         notaAjustada.setCategoriaNome(notaAjustada.getCategoria().getNome());
 
-
+        gerarLog(Operacoes.ADICIONAR, nova.getClass().getSimpleName(), "Adicionando uma nota " + notaAjustada.getNome(), notaAjustada.getPessoa().getEmail());
 
         return repository.save(nova);
     }
@@ -108,20 +108,27 @@ public class NotaService {
             Nota n = ajusteCategoria(nova);
             nota.setCategoria(n.getCategoria());
             nota.setCategoriaNome(n.getCategoriaNome());
+
+            gerarLog(Operacoes.EDITAR, nova.getClass().getSimpleName(), "Editando a nota " + nota.getNome(), nota.getPessoa().getEmail());
+
             return repository.save(nota);
         }else{
             throw new ResourceInternalException("Não foi possível incluir a categoria");
         }
-
     }
 
     public void deletarNota(Long id){
         validaRequisicao(id);
-        pegarNotaCompleta(id);
+        Nota nota = pegarNotaCompleta(id);
+
+        gerarLog(Operacoes.DELETAR, nota.getClass().getSimpleName(), "Deletando a nota " + nota.getNome(), nota.getPessoa().getEmail());
+
         repository.deleteById(id);
     }
 
     public void deletarTodasNotasCategoria(String nomeCategoria){
+
+        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         List<NotaDTO> notas = repository.pegarTodasNotasCategoria(nomeCategoria.toUpperCase());
 
@@ -130,9 +137,13 @@ public class NotaService {
                 repository.deleteById(notaDTO.getId());
             });
         }
+
+        gerarLog(Operacoes.DELETAR, "Nota", "Deletando todas as notas por categoria" , email.toString());
     }
 
     public void deletarTodasNotasIds(List<Long> ids){
+
+        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         List<NotaDTO> notas = repository.pegarTodasNotasIds(ids);
 
@@ -141,6 +152,8 @@ public class NotaService {
                 repository.deleteById(notaDTO.getId());
             });
         }
+
+        gerarLog(Operacoes.DELETAR, "Nota", "Deletando todas as notas por ids" , email.toString());
     }
 
     public boolean validaRequisicao(Long id){

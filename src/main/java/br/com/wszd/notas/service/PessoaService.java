@@ -4,8 +4,10 @@ import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Categoria;
+import br.com.wszd.notas.model.Logs;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.repository.PessoaRepository;
+import br.com.wszd.notas.util.OperacoesCRUD;
 import br.com.wszd.notas.util.ValidacaoEmailUsuario;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class PessoaService {
     private PessoaRepository repository;
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private LogsService logsService;
 
     @Lazy
     @Autowired
@@ -72,6 +77,8 @@ public class PessoaService {
 
         usuarioService.novoUsuario(pessoaNova);
 
+        gerarLog(OperacoesCRUD.ADICIONAR, pessoaNova.getClass().getSimpleName(), "Inclusão de nova pessoa", nova.getEmail());
+
         return new PessoaDTO(pessoaNova.getId(), pessoaNova.getNome(), pessoaNova.getEmail());
     }
 
@@ -84,6 +91,8 @@ public class PessoaService {
         Pessoa pessoaNova = repository.save(nova);
 
         usuarioService.editUser(pessoaNova);
+
+        gerarLog(OperacoesCRUD.EDITAR, pessoaNova.getClass().getSimpleName(), "Edição de pessoa", nova.getEmail());
 
         return pessoaNova;
     }
@@ -102,6 +111,13 @@ public class PessoaService {
 
         usuarioService.deleteUsuarioByNomeUsuario(pessoaByEmail(email.toString()));
 
+        gerarLog(OperacoesCRUD.DELETAR, pegarPessoa(id).getClass().getSimpleName(), "Edição de pessoa", email.toString());
+
         repository.deleteById(id);
+    }
+
+    public void gerarLog(OperacoesCRUD operacao, String modulo, String detalhes, String nomeUsuario ){
+        Logs log = new Logs(operacao, modulo, detalhes, nomeUsuario);
+        logsService.salvarLog(log);
     }
 }

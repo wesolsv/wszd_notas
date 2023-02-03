@@ -14,6 +14,7 @@ public class Logs {
     private Long id;
 
     @Column(name = "operacao")
+    @Enumerated(EnumType.STRING)
     private OperacoesCRUD operacao;
 
     @Column(name = "modulo")
@@ -23,17 +24,24 @@ public class Logs {
     private String detalhes;
 
     @Column(name = "usuario_id")
-    private Usuario usuario;
+    private String nomeUsuario;
 
     public Logs() {
     }
 
-    public Logs(Long id, OperacoesCRUD operacao, String modulo, String detalhes, Usuario usuario) {
+    public Logs(Long id, OperacoesCRUD operacao, String modulo, String detalhes, String nomeUsuario) {
         this.id = id;
         this.operacao = operacao;
         this.modulo = modulo;
         this.detalhes = detalhes;
-        this.usuario = usuario;
+        this.nomeUsuario = nomeUsuario;
+    }
+
+    public Logs( OperacoesCRUD operacao, String modulo, String detalhes, String nomeUsuario) {
+        this.operacao = operacao;
+        this.modulo = modulo;
+        this.detalhes = detalhes;
+        this.nomeUsuario = nomeUsuario;
     }
 
     public Long getId() {
@@ -68,11 +76,11 @@ public class Logs {
         this.detalhes = detalhes;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getUsuario() {
+        return nomeUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
     }
 }

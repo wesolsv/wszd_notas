@@ -6,6 +6,7 @@ import br.com.wszd.notas.dto.UserLoginDTO;
 import br.com.wszd.notas.dto.UserRoleDTO;
 import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
+import br.com.wszd.notas.model.Logs;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Role;
 import br.com.wszd.notas.model.Usuario;
@@ -13,6 +14,7 @@ import br.com.wszd.notas.repository.UsuarioRepository;
 import br.com.wszd.notas.security.JWTCreator;
 import br.com.wszd.notas.security.JWTObject;
 import br.com.wszd.notas.security.SecurityConfig;
+import br.com.wszd.notas.util.Operacoes;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +30,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
 
+    @Autowired
+    private LogsService logsService;
+
     private BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
@@ -38,6 +43,7 @@ public class UsuarioService {
         //Criando e atribuindo a role ao user
         UserRoleDTO userRoleDTO = new UserRoleDTO(usuario.getId(), listIdRoles);
         addRoleInUser(userRoleDTO);
+        gerarLog(Operacoes.ADICIONAR, usuario.getClass().getSimpleName(), "Inclusão de novo usuário " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
         repository.save(usuario);
     }
 
@@ -112,16 +118,27 @@ public class UsuarioService {
         usuario.setPessoa(pessoa);
         usuario.setNomeUsuario(pessoa.getEmail());
         usuario.setSenha(pessoa.getSenha());
+
+        gerarLog(Operacoes.EDITAR, usuario.getClass().getSimpleName(), "Editando usuário " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
         repository.save(usuario);
     }
 
     public void deleteUsuarioByNomeUsuario(PessoaDTO pessoa) {
         log.info("Deletando usuario");
-        repository.deleteById(findUserByName(pessoa.getEmail()).getId());
+
+        Usuario usuario = findUserByName(pessoa.getEmail());
+
+        gerarLog(Operacoes.DELETAR, usuario.getClass().getSimpleName(), "Deletando usuário pelo nome " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
+        repository.deleteById(usuario.getId());
     }
 
     public void deleteUsuario(Long id) {
         log.info("Deletando usuario");
         repository.deleteById(id);
+    }
+
+    public void gerarLog(Operacoes operacao, String modulo, String detalhes, String nomeUsuario ){
+        Logs log = new Logs(operacao, modulo, detalhes, nomeUsuario);
+        logsService.salvarLog(log);
     }
 }

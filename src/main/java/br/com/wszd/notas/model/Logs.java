@@ -1,6 +1,6 @@
 package br.com.wszd.notas.model;
 
-import br.com.wszd.notas.util.OperacoesCRUD;
+import br.com.wszd.notas.util.Operacoes;
 
 import javax.persistence.*;
 
@@ -15,7 +15,7 @@ public class Logs {
 
     @Column(name = "operacao")
     @Enumerated(EnumType.STRING)
-    private OperacoesCRUD operacao;
+    private Operacoes operacao;
 
     @Column(name = "modulo")
     private String modulo;
@@ -29,7 +29,7 @@ public class Logs {
     public Logs() {
     }
 
-    public Logs(Long id, OperacoesCRUD operacao, String modulo, String detalhes, String nomeUsuario) {
+    public Logs(Long id, Operacoes operacao, String modulo, String detalhes, String nomeUsuario) {
         this.id = id;
         this.operacao = operacao;
         this.modulo = modulo;
@@ -37,7 +37,7 @@ public class Logs {
         this.nomeUsuario = nomeUsuario;
     }
 
-    public Logs( OperacoesCRUD operacao, String modulo, String detalhes, String nomeUsuario) {
+    public Logs(Operacoes operacao, String modulo, String detalhes, String nomeUsuario) {
         this.operacao = operacao;
         this.modulo = modulo;
         this.detalhes = detalhes;
@@ -52,11 +52,11 @@ public class Logs {
         this.id = id;
     }
 
-    public OperacoesCRUD getOperacao() {
+    public Operacoes getOperacao() {
         return operacao;
     }
 
-    public void setOperacao(OperacoesCRUD operacao) {
+    public void setOperacao(Operacoes operacao) {
         this.operacao = operacao;
     }
 

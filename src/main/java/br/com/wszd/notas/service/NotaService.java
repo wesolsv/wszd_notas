@@ -6,8 +6,10 @@ import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceInternalException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Categoria;
+import br.com.wszd.notas.model.Logs;
 import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.repository.NotaRepository;
+import br.com.wszd.notas.util.Operacoes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +30,9 @@ public class NotaService {
 
     @Autowired
     private PessoaService pessoaService;
+
+    @Autowired
+    private LogsService logsService;
 
     public List<Nota> listarNotas(){
         return repository.findAll();
@@ -58,6 +63,8 @@ public class NotaService {
         nova.setDataCriacao(LocalDateTime.now());
         nova.setDataAlteracao(LocalDateTime.now());
         notaAjustada.setCategoriaNome(notaAjustada.getCategoria().getNome());
+
+
 
         return repository.save(nova);
     }
@@ -146,6 +153,11 @@ public class NotaService {
             throw new ResourceBadRequestException("O usuário não tem acesso a esta nota");
         }
         return true;
+    }
+
+    public void gerarLog(Operacoes operacao, String modulo, String detalhes, String nomeUsuario) {
+        Logs log = new Logs(operacao, modulo, detalhes, nomeUsuario);
+        logsService.salvarLog(log);
     }
 }
 

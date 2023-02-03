@@ -7,7 +7,7 @@ import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Logs;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.repository.PessoaRepository;
-import br.com.wszd.notas.util.OperacoesCRUD;
+import br.com.wszd.notas.util.Operacoes;
 import br.com.wszd.notas.util.ValidacaoEmailUsuario;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +77,7 @@ public class PessoaService {
 
         usuarioService.novoUsuario(pessoaNova);
 
-        gerarLog(OperacoesCRUD.ADICIONAR, pessoaNova.getClass().getSimpleName(), "Inclusão de nova pessoa", nova.getEmail());
+        gerarLog(Operacoes.ADICIONAR, pessoaNova.getClass().getSimpleName(), "Inclusão de nova pessoa", nova.getEmail());
 
         return new PessoaDTO(pessoaNova.getId(), pessoaNova.getNome(), pessoaNova.getEmail());
     }
@@ -92,7 +92,7 @@ public class PessoaService {
 
         usuarioService.editUser(pessoaNova);
 
-        gerarLog(OperacoesCRUD.EDITAR, pessoaNova.getClass().getSimpleName(), "Edição de pessoa", nova.getEmail());
+        gerarLog(Operacoes.EDITAR, pessoaNova.getClass().getSimpleName(), "Edição de pessoa", nova.getEmail());
 
         return pessoaNova;
     }
@@ -111,12 +111,12 @@ public class PessoaService {
 
         usuarioService.deleteUsuarioByNomeUsuario(pessoaByEmail(email.toString()));
 
-        gerarLog(OperacoesCRUD.DELETAR, pegarPessoa(id).getClass().getSimpleName(), "Edição de pessoa", email.toString());
+        gerarLog(Operacoes.DELETAR, pegarPessoa(id).getClass().getSimpleName(), "Delete de pessoa", email.toString());
 
         repository.deleteById(id);
     }
 
-    public void gerarLog(OperacoesCRUD operacao, String modulo, String detalhes, String nomeUsuario ){
+    public void gerarLog(Operacoes operacao, String modulo, String detalhes, String nomeUsuario ){
         Logs log = new Logs(operacao, modulo, detalhes, nomeUsuario);
         logsService.salvarLog(log);
     }

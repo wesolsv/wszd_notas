@@ -2,8 +2,10 @@ package br.com.wszd.notas.service;
 
 import br.com.wszd.notas.dto.NotaDTO;
 import br.com.wszd.notas.dto.PessoaDTO;
+import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceInternalException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
+import br.com.wszd.notas.model.Atividade;
 import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.repository.NotaRepository;
@@ -83,17 +85,13 @@ public class NotaService {
     }
 
     public Nota editarNota(Long id, Nota nova){
-
-        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
+        validaRequisicao(id);
         Nota nota = pegarNotaCompleta(id);
-        if(nota.getPessoa().getId() == pessoa.getId()){
-            nota.setNome(nova.getNome());
-            nota.setConteudo(nova.getConteudo());
-            nota.setDataAlteracao(LocalDateTime.now());
-        }else{
-            throw new ResourceInternalException("O usuário não tem acesso a nota");
-        }
+
+        nota.setNome(nova.getNome());
+        nota.setConteudo(nova.getConteudo());
+        nota.setDataAlteracao(LocalDateTime.now());
+
         if(nova.getCategoriaNome() != null){
             Nota n = ajusteCategoria(nova);
             nota.setCategoria(n.getCategoria());
@@ -106,6 +104,7 @@ public class NotaService {
     }
 
     public void deletarNota(Long id){
+        validaRequisicao(id);
         pegarNotaCompleta(id);
         repository.deleteById(id);
     }
@@ -130,6 +129,18 @@ public class NotaService {
                 repository.deleteById(notaDTO.getId());
             });
         }
+    }
+
+    public boolean validaRequisicao(Long id){
+        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
+
+        Nota nota = pegarNotaCompleta(id);
+
+        if(nota.getPessoa().getId() != pessoa.getId()){
+            throw new ResourceBadRequestException("O usuário não tem acesso a esta nota");
+        }
+        return true;
     }
 }
 

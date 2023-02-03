@@ -17,6 +17,6 @@ public interface AtividadeRepository extends JpaRepository<Atividade, Long> {
     List<AtividadeDTO> pegarTodasAtividades(@Param("pessoa") Pessoa pessoa);
 
     @Query("SELECT new br.com.wszd.notas.dto.AtividadeDTO(a.id, a.nome, a.conteudo, a.dataLembrete, a.status) " +
-            "FROM Atividade a WHERE a.pessoa = :pessoa AND a.status = status")
+            "FROM Atividade a WHERE a.pessoa = :pessoa AND a.status = :status")
     List<AtividadeDTO> listarTodasAtividadesPorStatus(@Param("pessoa") Pessoa pessoa, @Param("status")StatusAtividade status);
 }

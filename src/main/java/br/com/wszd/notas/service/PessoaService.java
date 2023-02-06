@@ -26,7 +26,6 @@ public class PessoaService {
     private PessoaRepository repository;
     @Autowired
     private UsuarioService usuarioService;
-
     @Autowired
     private LogsService logsService;
 

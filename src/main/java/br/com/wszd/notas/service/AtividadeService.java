@@ -28,6 +28,9 @@ public class AtividadeService {
     @Autowired
     private LogsService logsService;
 
+    @Autowired
+    private EmailService emailService;
+
 
     public List<Atividade> listAtividades() {
         return repository.findAll();
@@ -71,7 +74,7 @@ public class AtividadeService {
         }
 
         gerarLog(Operacoes.ADICIONAR, nova.getClass().getSimpleName(), "Inclusão de nova atividade", email.toString());
-
+        emailService.enviarEmailNovaAtividade(nova.getPessoa(), nova);
         return repository.save(nova);
     }
 

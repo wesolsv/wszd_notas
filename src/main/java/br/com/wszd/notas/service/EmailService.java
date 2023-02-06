@@ -53,6 +53,20 @@ public class EmailService {
         createEmail(toEmail, subject, body);
     }
 
+    public void enviarEmailUsuarioExcluido(Usuario usuario) {
+
+        PessoaDTO pessoa = null;
+        String toEmail = "";
+
+        pessoa = pessoaService.pegarPessoaDTO(usuario.getPessoa().getId());
+        toEmail = pessoa.getEmail();
+
+        String subject = "Usuario excluído com sucesso";
+        String body = "Usuário excluido " + toEmail;
+
+        createEmail(toEmail, subject, body);
+    }
+
     public void enviarEmailNovaAtividade(Pessoa pessoa, Atividade atividade) {
 
         String toEmail = pessoaService.pegarPessoaDTO(pessoa.getId()).getEmail();
@@ -60,6 +74,16 @@ public class EmailService {
         String subject = "Atividade criada com sucesso!";
         String body = "Agora é só aguardar a notificação no dia "
                 + atividade.getNome() + " data: " + atividade.getDataLembrete();
+
+        createEmail(toEmail, subject, body);
+    }
+
+    public void enviarEmailNovaNota(Pessoa pessoa, Nota nota) {
+
+        String toEmail = pessoaService.pegarPessoaDTO(pessoa.getId()).getEmail();
+
+        String subject = "Nota criada com sucesso!";
+        String body = "Acompanhe a nota criada e seus detalhes!";
 
         createEmail(toEmail, subject, body);
     }

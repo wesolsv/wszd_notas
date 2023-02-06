@@ -31,6 +31,9 @@ public class UsuarioService {
     private UsuarioRepository repository;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private LogsService logsService;
 
     private BCryptPasswordEncoder passwordEncoder(){
@@ -45,6 +48,8 @@ public class UsuarioService {
         addRoleInUser(userRoleDTO);
         gerarLog(Operacoes.ADICIONAR, usuario.getClass().getSimpleName(), "Inclusão de novo usuário " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
         repository.save(usuario);
+
+        emailService.enviarEmailNovoUsuario(usuario);
     }
 
     public void newUser(Usuario user) {
@@ -121,6 +126,8 @@ public class UsuarioService {
 
         gerarLog(Operacoes.EDITAR, usuario.getClass().getSimpleName(), "Editando usuário " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
         repository.save(usuario);
+
+        emailService.enviarEmailEdicaoUsuario(usuario);
     }
 
     public void deleteUsuarioByNomeUsuario(PessoaDTO pessoa) {
@@ -130,6 +137,7 @@ public class UsuarioService {
 
         gerarLog(Operacoes.DELETAR, usuario.getClass().getSimpleName(), "Deletando usuário pelo nome " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
         repository.deleteById(usuario.getId());
+        emailService.enviarEmailUsuarioExcluido(usuario);
     }
 
     public void deleteUsuario(Long id) {

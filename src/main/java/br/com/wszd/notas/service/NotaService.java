@@ -30,6 +30,8 @@ public class NotaService {
 
     @Autowired
     private PessoaService pessoaService;
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private LogsService logsService;
@@ -65,7 +67,7 @@ public class NotaService {
         notaAjustada.setCategoriaNome(notaAjustada.getCategoria().getNome());
 
         gerarLog(Operacoes.ADICIONAR, nova.getClass().getSimpleName(), "Adicionando uma nota " + notaAjustada.getNome(), notaAjustada.getPessoa().getEmail());
-
+        emailService.enviarEmailNovaNota(nova.getPessoa(), notaAjustada);
         return repository.save(nova);
     }
 

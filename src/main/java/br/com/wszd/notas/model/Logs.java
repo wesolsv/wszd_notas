@@ -23,7 +23,7 @@ public class Logs {
     @Column(name = "detalhes")
     private String detalhes;
 
-    @Column(name = "usuario_id")
+    @Column(name = "nome_usuario")
     private String nomeUsuario;
 
     public Logs() {

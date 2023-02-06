@@ -10,6 +10,7 @@ import br.com.wszd.notas.repository.AtividadeRepository;
 import br.com.wszd.notas.util.Operacoes;
 import br.com.wszd.notas.util.StatusAtividade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class AtividadeService {
     @Autowired
     private LogsService logsService;
 
+    @Lazy
     @Autowired
     private EmailService emailService;
 

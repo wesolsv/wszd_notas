@@ -8,6 +8,7 @@ import br.com.wszd.notas.model.Atividade;
 import br.com.wszd.notas.model.Usuario;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,10 @@ public class EmailService {
     private JavaMailSender mailSender;
     @Autowired
     private PessoaService pessoaService;
+    @Lazy
     @Autowired
     private NotaService notaService;
+    @Lazy
     @Autowired
     private AtividadeService atividadeService;
 

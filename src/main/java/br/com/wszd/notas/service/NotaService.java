@@ -32,7 +32,7 @@ public class NotaService {
     private PessoaService pessoaService;
     @Autowired
     private EmailService emailService;
-
+    @Lazy
     @Autowired
     private LogsService logsService;
 

@@ -54,11 +54,11 @@ public class UsuarioService {
         emailService.enviarEmailNovoUsuario(usuario);
     }
 
-    public void newUser(Usuario user) {
+    public Usuario newUser(Usuario user) {
         String senha = user.getSenha();
 
         user.setSenha(passwordEncoder().encode(senha));
-        repository.save(user);
+        return repository.save(user);
     }
 
     public Usuario findUserByName(String nomeUsuario){

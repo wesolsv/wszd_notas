@@ -63,7 +63,18 @@ public class PessoaService {
         return pessoa;
     }
 
-    public PessoaDTO novaPessoa(Pessoa nova){
+    public PessoaDTO novaPessoaDTO(Pessoa nova){
+
+        Pessoa pessoaNova = novaPessoa(nova);
+
+        usuarioService.novoUsuario(pessoaNova);
+
+        gerarLog(Operacoes.ADICIONAR, pessoaNova.getClass().getSimpleName(), "Inclusão de nova pessoa", nova.getEmail());
+
+        return new PessoaDTO(pessoaNova.getId(), pessoaNova.getNome(), pessoaNova.getEmail());
+    }
+
+    public Pessoa novaPessoa(Pessoa nova){
         log.info("Adicionando nova pessoa!");
 
         if(repository.findByEmail(nova.getEmail()) != null){
@@ -72,13 +83,7 @@ public class PessoaService {
 
         nova.setSenha(passwordEncoder().encode(nova.getSenha()));
 
-        Pessoa pessoaNova = repository.save(nova);
-
-        usuarioService.novoUsuario(pessoaNova);
-
-        gerarLog(Operacoes.ADICIONAR, pessoaNova.getClass().getSimpleName(), "Inclusão de nova pessoa", nova.getEmail());
-
-        return new PessoaDTO(pessoaNova.getId(), pessoaNova.getNome(), pessoaNova.getEmail());
+        return repository.save(nova);
     }
 
     public Pessoa editarPessoa(Long id, Pessoa nova){

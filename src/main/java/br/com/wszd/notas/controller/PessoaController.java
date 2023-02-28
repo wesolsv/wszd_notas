@@ -34,7 +34,7 @@ public class PessoaController {
 
     @PostMapping
     private ResponseEntity<PessoaDTO> novaPessoa(@RequestBody Pessoa nova){
-        PessoaDTO res = service.novaPessoa(nova);
+        PessoaDTO res = service.novaPessoaDTO(nova);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

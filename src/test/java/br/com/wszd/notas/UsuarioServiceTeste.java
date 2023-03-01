@@ -17,8 +17,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class UsuarioServiceTeste {
@@ -46,11 +45,18 @@ public class UsuarioServiceTeste {
     }
 
     @Test
-    public void findUsuario() throws Exception {
+    public void encontrarUsuario() throws Exception {
         Mockito.when(repository.findByNomeUsuario(Mockito.any())).thenReturn(new Usuario());
         usuario = service.findUserByName(usuario.getNomeUsuario());
 
         assertNotNull(usuario);
         verify(repository, Mockito.times(1)).findByNomeUsuario(Mockito.any());
+    }
+
+    @Test
+    public void deletarUsuario() throws Exception {
+        service.deleteUsuario(Mockito.anyLong());
+
+        verify(repository, Mockito.times(1)).deleteById(Mockito.any());
     }
 }

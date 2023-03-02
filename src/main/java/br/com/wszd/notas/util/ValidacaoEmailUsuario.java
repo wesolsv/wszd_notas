@@ -3,9 +3,7 @@ package br.com.wszd.notas.util;
 import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Usuario;
-import br.com.wszd.notas.service.UsuarioService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 

@@ -12,6 +12,10 @@ public class PessoaDTO {
         this.email = email;
     }
 
+    public PessoaDTO() {
+
+    }
+
     public Long getId() {
         return id;
     }

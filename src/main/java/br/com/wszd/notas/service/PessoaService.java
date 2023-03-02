@@ -113,9 +113,10 @@ public class PessoaService {
             });
         }
 
-        usuarioService.deleteUsuarioByNomeUsuario(pessoaByEmail(email.toString()));
+        PessoaDTO pessoa = pegarPessoaDTO(id);
+        usuarioService.deleteUsuarioByNomeUsuario(pessoa);
 
-        gerarLog(Operacoes.DELETAR, pegarPessoa(id).getClass().getSimpleName(), "Delete de pessoa", email.toString());
+        gerarLog(Operacoes.DELETAR, pegarPessoa(id).getClass().getSimpleName(), "Delete de pessoa", pessoa.getEmail());
 
         repository.deleteById(id);
     }

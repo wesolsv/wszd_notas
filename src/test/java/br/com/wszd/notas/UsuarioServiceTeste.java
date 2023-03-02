@@ -1,6 +1,9 @@
 package br.com.wszd.notas;
 
+import br.com.wszd.notas.dto.SessaoDTO;
+import br.com.wszd.notas.dto.UserLoginDTO;
 import br.com.wszd.notas.model.Pessoa;
+import br.com.wszd.notas.model.Role;
 import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.UsuarioRepository;
 import br.com.wszd.notas.service.UsuarioService;
@@ -10,6 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,10 +31,13 @@ public class UsuarioServiceTeste {
     Usuario usuario;
     Pessoa pessoa;
 
+    UserLoginDTO usuarioLogin;
+
     @BeforeEach
     public void setUp(){
-        usuario = new Usuario("wes@test2e.com.br", "123456", new Pessoa());
-        pessoa = new Pessoa(null, "Teste","wes@test3ee.com.br", "123456", null);
+        usuario = new Usuario("wes@email.com", "123456", new Pessoa());
+        pessoa = new Pessoa(null, "Teste","wes@email.com", "123456", null);
+        usuarioLogin = new UserLoginDTO("wes@email.com", "123456");
     }
 
     @Test
@@ -47,6 +56,27 @@ public class UsuarioServiceTeste {
 
         assertNotNull(usuario);
         verify(repository, times(1)).findByNomeUsuario(any());
+    }
+
+    @Test
+    public void deveRealizarLogin() throws Exception{
+
+        List<Role> roles = Arrays.asList(new Role(1L, "ADMIN"));
+
+        usuario = new Usuario("wes@test2e.com.br",
+                "$2a$08$sOOxkOE/arGYc6N1IBdzxO8kaWB7HWqlg/mhANhGeazRdDALX9vWK",
+                new Pessoa());
+
+        usuario.setRoles(roles);
+
+        UserLoginDTO login = new UserLoginDTO("wes@test2e.com.br","123456");
+
+        SessaoDTO session = new SessaoDTO();
+
+        session = service.validarLogin(usuario, login);
+
+        assertNotNull(session);
+        assertEquals("wes@test2e.com.br", session.getLogin());
     }
 
     @Test

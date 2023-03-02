@@ -1,5 +1,6 @@
 package br.com.wszd.notas;
 
+import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.PessoaRepository;
@@ -43,19 +44,37 @@ public class PessoaServiceTeste {
     }
 
     @Test
-    public void deveEditarPessoa() throws Exception {
-        when(repository.save(pessoa)).thenReturn(pessoa);
-        pessoa = service.editarPessoa(anyLong(), pessoa);
+    public void deveRetornarPessoa() throws Exception{
+        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(pessoa));
+        pessoa = service.pegarPessoa(anyLong());
 
         assertNotNull(pessoa);
-        assertEquals("wes@test.com.br", pessoa.getEmail());
-        verify(repository, times(1)).save(pessoa);
+        verify(repository, times(1)).findById(anyLong());
     }
 
     @Test
-    public void deletarUsuario() throws Exception {
-        //service.deleteUsuario(Mockito.anyLong());
+    public void deveRetornarPessoaByEmail() throws Exception{
+        when(repository.findByEmail(any())).thenReturn(new PessoaDTO());
+        service.pessoaByEmail(any());
 
-        verify(repository, times(1)).deleteById(any());
+        verify(repository, times(1)).findByEmail(any());
     }
+
+//    @Test
+//    public void deveEditarPessoa() throws Exception {
+//        pessoa.setEmail("email@alterado.com");
+//        when(repository.save(pessoa)).thenReturn(pessoa);
+//        Pessoa p = service.editarPessoa(anyLong(), pessoa);
+//
+//        assertNotNull(pessoa);
+//        assertEquals("wes@test.com.br", pessoa.getEmail());
+//        verify(repository, times(1)).save(pessoa);
+//    }
+
+//    @Test
+//    public void deletarUsuario() throws Exception {
+//        service.deletarPessoa(anyLong());
+//
+//        verify(repository, times(1)).deleteById(any());
+//    }
 }

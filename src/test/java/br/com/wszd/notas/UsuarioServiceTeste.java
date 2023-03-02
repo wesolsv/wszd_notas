@@ -9,11 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -22,9 +18,9 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class UsuarioServiceTeste {
 
-    @MockBean
+    @Mock
     private UsuarioRepository repository;
-    @Autowired
+    @InjectMocks
     private UsuarioService service;
     Usuario usuario;
     Pessoa pessoa;
@@ -46,17 +42,17 @@ public class UsuarioServiceTeste {
 
     @Test
     public void encontrarUsuario() throws Exception {
-        Mockito.when(repository.findByNomeUsuario(Mockito.any())).thenReturn(new Usuario());
+        when(repository.findByNomeUsuario(any())).thenReturn(new Usuario());
         usuario = service.findUserByName(usuario.getNomeUsuario());
 
         assertNotNull(usuario);
-        verify(repository, Mockito.times(1)).findByNomeUsuario(Mockito.any());
+        verify(repository, times(1)).findByNomeUsuario(any());
     }
 
     @Test
     public void deletarUsuario() throws Exception {
         service.deleteUsuario(Mockito.anyLong());
 
-        verify(repository, Mockito.times(1)).deleteById(Mockito.any());
+        verify(repository, times(1)).deleteById(any());
     }
 }

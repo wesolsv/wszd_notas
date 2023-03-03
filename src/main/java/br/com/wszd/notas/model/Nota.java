@@ -45,6 +45,13 @@ public class Nota {
     public Nota() {
     }
 
+    public Nota(String nome, String conteudo, Pessoa pessoa, Categoria categoria) {
+        this.nome = nome;
+        this.conteudo = conteudo;
+        this.pessoa = pessoa;
+        this.categoria = categoria;
+    }
+
     public Long getId() {
         return id;
     }

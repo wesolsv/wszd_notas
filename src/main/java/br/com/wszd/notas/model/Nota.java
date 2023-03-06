@@ -126,4 +126,60 @@ public class Nota {
         this.categoria = categoria;
         this.categoriaNome = categoriaNome;
     }
+
+
+    public static class Builder{
+        
+        private String nome;
+        private String conteudo;
+        private LocalDateTime dataCriacao;
+        private LocalDateTime dataAlteracao;
+        private Pessoa pessoa;
+        private Categoria categoria;
+        private String categoriaNome;
+
+        public Builder nome(String nome){
+            this.nome = nome;
+            return this;
+        }
+        public Builder conteudo(String conteudo){
+            this.conteudo = conteudo;
+            return this;
+        }
+        public Builder dataCriacao(LocalDateTime dataCriacao){
+            this.dataCriacao = dataCriacao;
+            return this;
+        }
+        
+        public Builder dataAlteracao(LocalDateTime dataAlteracao){
+            this.dataAlteracao = dataAlteracao;
+            return this;
+        }
+        public Builder pessoa(Pessoa pessoa){
+            this.pessoa = pessoa;
+            return this;
+        }
+        public Builder categoria(Categoria categoria){
+            this.categoria = categoria;
+            return this;
+        }
+        public Builder categoriaNome(String categoriaNome){
+            this.categoriaNome = categoriaNome;
+            return this;
+        }
+
+        public Nota build(){
+            return new Nota(this);
+        }
+    }
+
+    private Nota(Builder builder){
+        nome = builder.nome;
+        conteudo = builder.conteudo;
+        dataCriacao = builder.dataCriacao;
+        dataAlteracao = builder.dataAlteracao;
+        pessoa = builder.pessoa;
+        categoria = builder.categoria;
+        categoriaNome = builder.categoriaNome;
+    }
 }

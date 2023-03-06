@@ -131,11 +131,8 @@ public class UsuarioService {
         log.info("Editando usuario");
         Usuario usuario = repository.findByNomeUsuario(pessoa.getEmail());
 
-        usuario = new Usuario.Builder()
-                .nomeUsuario(pessoa.getEmail())
-                .senha(pessoa.getSenha())
-                .pessoa(pessoa)
-                .build();
+        usuario.setNomeUsuario(pessoa.getEmail());
+        usuario.setSenha(pessoa.getSenha());
 
         repository.save(usuario);
         gerarLog(Operacoes.EDITAR, usuario.getClass().getSimpleName(), "Editando usuário " + usuario.getNomeUsuario(), usuario.getNomeUsuario());

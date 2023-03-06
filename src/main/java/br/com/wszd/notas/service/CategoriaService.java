@@ -33,8 +33,8 @@ public class CategoriaService {
                 () -> new ResourceObjectNotFoundException("Categoria não encontrada"));
     }
 
-    public Categoria pegarCategoriaByName(String categoriaNome, Pessoa pessoa) {
-        return repository.pegarCategoriaByName(categoriaNome, pessoa);
+    public Categoria pegarCategoriaByName(String categoriaNome, Long pessoaId) {
+        return repository.pegarCategoriaByName(categoriaNome, pessoaId);
     }
 
     public Categoria novaCategoria(Categoria nova){

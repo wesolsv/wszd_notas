@@ -62,59 +62,67 @@ public class NotaService {
     public Nota novaNota(Nota nova){
         Nota notaAjustada = ajusteCategoria(nova);
 
-        nova.setDataCriacao(LocalDateTime.now());
-        nova.setDataAlteracao(LocalDateTime.now());
-        notaAjustada.setCategoriaNome(notaAjustada.getCategoria().getNome());
+        notaAjustada = new Nota.Builder()
+                .nome(notaAjustada.getNome())
+                .conteudo(notaAjustada.getConteudo())
+                .dataCriacao(LocalDateTime.now())
+                .dataAlteracao(LocalDateTime.now())
+                .pessoa(notaAjustada.getPessoa())
+                .categoria(notaAjustada.getCategoria())
+                .categoriaNome(notaAjustada.getCategoriaNome())
+                .build();
 
         gerarLog(Operacoes.ADICIONAR, nova.getClass().getSimpleName(), "Adicionando uma nota " + notaAjustada.getNome(), notaAjustada.getPessoa().getEmail());
         emailService.enviarEmailNovaNota(nova.getPessoa(), notaAjustada);
+
         return repository.save(nova);
     }
 
     public Nota ajusteCategoria(Nota nova){
         if(nova.getCategoriaNome() == null || nova.getCategoriaNome().equals("")){
-            Categoria padraoCat = categoriaService.pegarCategoriaByName("PADRAO", nova.getPessoa());
-            if(padraoCat != null){
-                nova.setCategoria(padraoCat);
-            }else{
-                padraoCat = new Categoria("PADRAO", nova.getPessoa());
-                categoriaService.novaCategoria(padraoCat);
-                nova.setCategoria(padraoCat);
-            }
+            Categoria padraoCat = categoriaService.pegarCategoriaByName("PADRAO", nova.getPessoa().getId());
+
+            nova.setCategoria(padraoCat);
             nova.setCategoriaNome(nova.getCategoria().getNome());
+
             return nova;
         }
 
-        Categoria padraoCat = categoriaService.pegarCategoriaByName(nova.getCategoriaNome(), nova.getPessoa());
+        Categoria categoria = categoriaService.pegarCategoriaByName(nova.getCategoriaNome(), nova.getPessoa().getId());
 
-        if(padraoCat != null){
-            nova.setCategoria(padraoCat);
+        if(categoria != null){
+            nova.setCategoria(categoria);
         }else{
-            padraoCat = new Categoria(nova.getCategoriaNome(), nova.getPessoa());
-            categoriaService.novaCategoria(padraoCat);
-            nova.setCategoria(padraoCat);
+            categoria = new Categoria(nova.getCategoriaNome(), nova.getPessoa());
+            nova.setCategoria(categoriaService.novaCategoria(categoria));
         }
         nova.setCategoriaNome(nova.getCategoria().getNome());
         return nova;
     }
 
-    public Nota editarNota(Long id, Nota nova){
+    public Nota editarNota(Long id, Nota novaNota){
         validaRequisicao(id);
-        Nota nota = pegarNotaCompleta(id);
+        Nota notaAntiga = pegarNotaCompleta(id);
 
-        nota.setNome(nova.getNome());
-        nota.setConteudo(nova.getConteudo());
-        nota.setDataAlteracao(LocalDateTime.now());
+        Nota objBuilderNota = new Nota.Builder()
+                .nome(novaNota.getNome())
+                .conteudo(novaNota.getConteudo())
+                .dataCriacao(notaAntiga.getDataCriacao())
+                .dataAlteracao(LocalDateTime.now())
+                .pessoa(novaNota.getPessoa())
+                .categoria(novaNota.getCategoria())
+                .categoriaNome(novaNota.getCategoriaNome())
+                .build();
 
-        if(nova.getCategoriaNome() != null){
-            Nota n = ajusteCategoria(nova);
-            nota.setCategoria(n.getCategoria());
-            nota.setCategoriaNome(n.getCategoriaNome());
+        objBuilderNota.setId(id);
 
-            gerarLog(Operacoes.EDITAR, nova.getClass().getSimpleName(), "Editando a nota " + nota.getNome(), nota.getPessoa().getEmail());
+        try{
+            objBuilderNota = ajusteCategoria(objBuilderNota);
 
-            return repository.save(nota);
-        }else{
+            gerarLog(Operacoes.EDITAR, novaNota.getClass().getSimpleName(), "Editando a nota " + notaAntiga.getNome(), notaAntiga.getPessoa().getEmail());
+
+            return repository.save(objBuilderNota);
+        }catch (ResourceInternalException e){
             throw new ResourceInternalException("Não foi possível incluir a categoria");
         }
     }

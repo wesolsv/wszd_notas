@@ -14,8 +14,8 @@ import java.util.List;
 @Transactional
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     @Query("SELECT c " +
-            "FROM Categoria c WHERE c.nome = :categoriaNome AND c.pessoa = :pessoa")
-    Categoria pegarCategoriaByName(@Param("categoriaNome") String categoriaNome, @Param("pessoa") Pessoa pessoa);
+            "FROM Categoria c WHERE c.nome = :categoriaNome AND c.pessoa.id = :pessoaId")
+    Categoria pegarCategoriaByName(@Param("categoriaNome") String categoriaNome, @Param("pessoaId") Long pessoaId);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Nota n SET n.categoriaNome = :categoriaNome " +

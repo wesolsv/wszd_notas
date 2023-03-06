@@ -68,7 +68,7 @@ public class PessoaService {
         Pessoa pessoaNova = novaPessoa(nova);
 
         usuarioService.novoUsuario(pessoaNova);
-
+        categoriaService.novaCategoria(new Categoria("PADRAO", nova));
         gerarLog(Operacoes.ADICIONAR, pessoaNova.getClass().getSimpleName(), "Inclusão de nova pessoa", nova.getEmail());
 
         return new PessoaDTO.Builder()
@@ -99,9 +99,16 @@ public class PessoaService {
         Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ValidacaoEmailUsuario.validarEmailUsuario(pegarPessoa(id), usuarioService.findUserByName(email.toString()));
 
-        nova.setSenha(passwordEncoder().encode(nova.getSenha()));
-        nova.setId(id);
-        Pessoa pessoaNova = repository.save(nova);
+        Pessoa pessoaNova = new Pessoa.Builder()
+                .nome(nova.getNome())
+                .email(nova.getEmail())
+                .senha((passwordEncoder().encode(nova.getSenha())))
+                .usuario(nova.getUsuario())
+                .build();
+
+        pessoaNova.setId(id);
+
+        pessoaNova = repository.save(pessoaNova);
 
         usuarioService.editUser(pessoaNova);
 

@@ -76,4 +76,41 @@ public class Pessoa {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+    public static class Builder{
+
+        private String nome;
+        private String email;
+        private String senha;
+
+        private Usuario usuario;
+
+        public Builder nome(String nome){
+            this.nome = nome;
+            return this;
+        }
+        public Builder email(String email){
+            this.email = email;
+            return this;
+        }
+        public Builder senha(String senha){
+            this.senha = senha;
+            return this;
+        }
+        public Builder usuario(Usuario usuario){
+            this.usuario = usuario;
+            return this;
+        }
+
+        public Pessoa build(){
+            return new Pessoa(this);
+        }
+    }
+
+    private Pessoa(Builder builder){
+        nome = builder.nome;
+        email = builder.email;
+        senha = builder.senha;
+        usuario = builder.usuario;
+    }
 }

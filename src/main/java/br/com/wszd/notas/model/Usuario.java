@@ -81,4 +81,39 @@ public class Usuario {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
+    public static class Builder{
+        private String senha;
+        private String nomeUsuario;
+        private Pessoa pessoa;
+        private List<Role> roles;
+
+        public Builder nomeUsuario(String nomeUsuario){
+            this.nomeUsuario = nomeUsuario;
+            return this;
+        }
+        public Builder senha(String senha){
+            this.senha = senha;
+            return this;
+        }
+        public Builder pessoa(Pessoa pessoa){
+            this.pessoa = pessoa;
+            return this;
+        }
+        public Builder roles(List<Role> roles){
+            this.roles = roles;
+            return this;
+        }
+
+        public Usuario build(){
+            return new Usuario(this);
+        }
+    }
+
+    private Usuario(Usuario.Builder builder){
+        nomeUsuario = builder.nomeUsuario;
+        senha = builder.senha;
+        pessoa = builder.pessoa;
+        roles = builder.roles;
+    }
 }

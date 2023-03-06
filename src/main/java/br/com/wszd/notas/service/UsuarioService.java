@@ -44,12 +44,20 @@ public class UsuarioService {
 
     public void novoUsuario(Pessoa pessoa){
         List<Long> listIdRoles = Arrays.asList(1L);
-        Usuario usuario = repository.save(new Usuario(pessoa.getEmail(), pessoa.getSenha(), pessoa));
+
+        Usuario usuario = repository.save(new Usuario.Builder()
+                .nomeUsuario(pessoa.getEmail())
+                .senha(pessoa.getSenha())
+                .pessoa(pessoa)
+                .build());
+
         //Criando e atribuindo a role ao user
         UserRoleDTO userRoleDTO = new UserRoleDTO(usuario.getId(), listIdRoles);
         addRoleInUser(userRoleDTO);
-        gerarLog(Operacoes.ADICIONAR, usuario.getClass().getSimpleName(), "Inclusão de novo usuário " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
+
         repository.save(usuario);
+
+        gerarLog(Operacoes.ADICIONAR, usuario.getClass().getSimpleName(), "Inclusão de novo usuário " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
 
         emailService.enviarEmailNovoUsuario(usuario);
     }
@@ -122,12 +130,15 @@ public class UsuarioService {
     public void editUser(Pessoa pessoa) {
         log.info("Editando usuario");
         Usuario usuario = repository.findByNomeUsuario(pessoa.getEmail());
-        usuario.setPessoa(pessoa);
-        usuario.setNomeUsuario(pessoa.getEmail());
-        usuario.setSenha(pessoa.getSenha());
 
-        gerarLog(Operacoes.EDITAR, usuario.getClass().getSimpleName(), "Editando usuário " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
+        usuario = new Usuario.Builder()
+                .nomeUsuario(pessoa.getEmail())
+                .senha(pessoa.getSenha())
+                .pessoa(pessoa)
+                .build();
+
         repository.save(usuario);
+        gerarLog(Operacoes.EDITAR, usuario.getClass().getSimpleName(), "Editando usuário " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
 
         emailService.enviarEmailEdicaoUsuario(usuario);
     }
@@ -137,8 +148,9 @@ public class UsuarioService {
 
         Usuario usuario = findUserByName(pessoa.getEmail());
 
-        gerarLog(Operacoes.DELETAR, usuario.getClass().getSimpleName(), "Deletando usuário pelo nome " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
         repository.deleteById(usuario.getId());
+        gerarLog(Operacoes.DELETAR, usuario.getClass().getSimpleName(), "Deletando usuário pelo nome " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
+
         emailService.enviarEmailUsuarioExcluido(usuario);
     }
 

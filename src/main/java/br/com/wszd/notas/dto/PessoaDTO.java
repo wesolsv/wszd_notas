@@ -12,6 +12,11 @@ public class PessoaDTO {
         this.email = email;
     }
 
+    public PessoaDTO(String nome, String email) {
+        this.nome = nome;
+        this.email = email;
+    }
+
     public PessoaDTO() {
 
     }
@@ -38,5 +43,36 @@ public class PessoaDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public static class Builder{
+
+        private Long id;
+        private String nome;
+        private String email;
+
+
+        public Builder id(Long id){
+            this.id = id;
+            return this;
+        }
+        public Builder nome(String nome){
+            this.nome = nome;
+            return this;
+        }
+        public Builder email(String email){
+            this.email = email;
+            return this;
+        }
+
+        public PessoaDTO build(){
+            return new PessoaDTO(this);
+        }
+    }
+
+    private PessoaDTO(Builder builder){
+        id = builder.id;
+        nome = builder.nome;
+        email = builder.email;
     }
 }

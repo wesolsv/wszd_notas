@@ -71,7 +71,11 @@ public class PessoaService {
 
         gerarLog(Operacoes.ADICIONAR, pessoaNova.getClass().getSimpleName(), "Inclusão de nova pessoa", nova.getEmail());
 
-        return new PessoaDTO(pessoaNova.getId(), pessoaNova.getNome(), pessoaNova.getEmail());
+        return new PessoaDTO.Builder()
+                .id(pessoaNova.getId())
+                .nome(pessoaNova.getNome())
+                .email(pessoaNova.getEmail())
+                .build();
     }
 
     public Pessoa novaPessoa(Pessoa nova){
@@ -81,9 +85,14 @@ public class PessoaService {
             throw new ResourceBadRequestException("Email já cadastrado, verfique seus dados");
         }
 
-        nova.setSenha(passwordEncoder().encode(nova.getSenha()));
+        Pessoa pessoaCriada = new Pessoa.Builder()
+                .nome(nova.getNome())
+                .email(nova.getEmail())
+                .senha((passwordEncoder().encode(nova.getSenha())))
+                .usuario(nova.getUsuario())
+                .build();
 
-        return repository.save(nova);
+        return repository.save(pessoaCriada);
     }
 
     public Pessoa editarPessoa(Long id, Pessoa nova){

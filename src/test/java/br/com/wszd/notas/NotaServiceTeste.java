@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -39,47 +41,39 @@ public class NotaServiceTeste {
         nota = new Nota("Primeira Nota", "Descrição aleatória", new Pessoa(), new Categoria("PADRAO", pessoa));
     }
 
+//    @Test
+//    public void deveCriarNovaNota() throws Exception {
+//        when(repository.save(nota)).thenReturn(nota);
+//        nota = service.novaNota(nota);
+//
+//        assertNotNull(nota);
+//        assertEquals("Primeira Nota", pessoa.getNome());
+//        verify(repository, times(1)).save(nota);
+//    }
+
     @Test
-    public void deveCriarNovaNota() throws Exception {
-        when(repository.save(nota)).thenReturn(nota);
-        nota = service.novaNota(nota);
+    public void deveRetornarNota() throws Exception{
+        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(nota));
+        nota = service.pegarNotaCompleta(anyLong());
 
         assertNotNull(nota);
-        assertEquals("Primeira Nota", pessoa.getNome());
-        verify(repository, times(1)).save(nota);
+        verify(repository, times(1)).findById(anyLong());
     }
 
 //    @Test
-//    public void deveRetornarPessoa() throws Exception{
-//        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(pessoa));
-//        pessoa = service.pegarPessoa(anyLong());
+//    public void deveEditarNota() throws Exception {
+//        nota.setNome("Teste edição");
+//        when(repository.save(nota)).thenReturn(nota);
+//        Nota n = service.editarNota(anyLong(), nota);
 //
-//        assertNotNull(pessoa);
-//        verify(repository, times(1)).findById(anyLong());
-//    }
-//
-//    @Test
-//    public void deveRetornarPessoaByEmail() throws Exception{
-//        when(repository.findByEmail(any())).thenReturn(new PessoaDTO());
-//        service.pessoaByEmail(any());
-//
-//        verify(repository, times(1)).findByEmail(any());
-//    }
-
-//    @Test
-//    public void deveEditarPessoa() throws Exception {
-//        pessoa.setEmail("email@alterado.com");
-//        when(repository.save(pessoa)).thenReturn(pessoa);
-//        Pessoa p = service.editarPessoa(anyLong(), pessoa);
-//
-//        assertNotNull(pessoa);
-//        assertEquals("wes@test.com.br", pessoa.getEmail());
-//        verify(repository, times(1)).save(pessoa);
+//        assertNotNull(nota);
+//        assertEquals("Teste edição", nota.getNome());
+//        verify(repository, times(1)).save(nota);
 //    }
 
 //    @Test
 //    public void deletarUsuario() throws Exception {
-//        service.deletarPessoa(anyLong());
+//        service.deletarNota(anyLong());
 //
 //        verify(repository, times(1)).deleteById(any());
 //    }

@@ -66,27 +66,39 @@ public class AtividadeService {
 
     public Atividade novaAtividade(Atividade nova) {
 
-        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Atividade atv = new Atividade.Builder()
+                .nome(nova.getNome())
+                .conteudo(nova.getConteudo())
+                .dataLembrete(nova.getDataLembrete())
+                .status(nova.getStatus())
+                .pessoa(nova.getPessoa())
+                .build();
 
-        if (nova.getDataLembrete() == null) {
-            nova.setDataLembrete(LocalDateTime.now());
+        if (atv.getDataLembrete() == null) {
+            atv.setDataLembrete(LocalDateTime.now());
         }
-        if (nova.getStatus() == null) {
-            nova.setStatus(StatusAtividade.A);
+        if (atv.getStatus() == null) {
+            atv.setStatus(StatusAtividade.A);
         }
 
-        gerarLog(Operacoes.ADICIONAR, nova.getClass().getSimpleName(), "Inclusão de nova atividade", email.toString());
-        emailService.enviarEmailNovaAtividade(nova.getPessoa(), nova);
-        return repository.save(nova);
+        gerarLog(Operacoes.ADICIONAR, nova.getClass().getSimpleName(), "Inclusão de nova atividade", atv.getPessoa().getEmail());
+        emailService.enviarEmailNovaAtividade(atv.getPessoa(), atv);
+        return repository.save(atv);
     }
 
     public Atividade editarAtividade(Long id, Atividade nova) {
         validaRequisicao(id);
 
-        Atividade atv = pegarAtividade(id);
+        Atividade atividade = pegarAtividade(id);
 
-        atv.setNome(nova.getNome());
-        atv.setConteudo(nova.getConteudo());
+        Atividade atv = new Atividade.Builder()
+                .nome(nova.getNome())
+                .conteudo(nova.getConteudo())
+                .dataLembrete(nova.getDataLembrete())
+                .status(nova.getStatus())
+                .pessoa(atividade.getPessoa())
+                .build();
+
         if (nova.getDataLembrete() != null) {
             atv.setDataLembrete(nova.getDataLembrete());
         }

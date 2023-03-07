@@ -95,4 +95,49 @@ public class Atividade {
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
+
+    public static class Builder{
+
+        private String nome;
+        private String conteudo;
+        private LocalDateTime dataLembrete;
+        private StatusAtividade status;
+        private Pessoa pessoa;
+
+        public Builder nome(String nome){
+            this.nome = nome;
+            return this;
+        }
+        public Builder conteudo(String conteudo){
+            this.conteudo = conteudo;
+            return this;
+        }
+        public Builder dataLembrete(LocalDateTime dataLembrete){
+            this.dataLembrete = dataLembrete;
+            return this;
+        }
+
+        public Builder status(StatusAtividade status){
+            this.status = status;
+            return this;
+        }
+
+        public Builder pessoa(Pessoa pessoa){
+            this.pessoa = pessoa;
+            return this;
+        }
+
+
+        public Atividade build(){
+            return new Atividade(this);
+        }
+    }
+
+    private Atividade(Builder builder){
+        nome = builder.nome;
+        conteudo = builder.conteudo;
+        dataLembrete = builder.dataLembrete;
+        status = builder.status;
+        pessoa = builder.pessoa;
+    }
 }

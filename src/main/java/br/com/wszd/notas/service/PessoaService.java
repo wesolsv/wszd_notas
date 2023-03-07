@@ -8,7 +8,6 @@ import br.com.wszd.notas.model.Logs;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.repository.PessoaRepository;
 import br.com.wszd.notas.util.Operacoes;
-import br.com.wszd.notas.util.ValidacaoEmailUsuario;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -17,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static br.com.wszd.notas.util.ValidacaoEmailUsuario.validarEmailUsuario;
 
 @Service
 @Slf4j
@@ -96,8 +97,7 @@ public class PessoaService {
     }
 
     public Pessoa editarPessoa(Long id, Pessoa nova){
-        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ValidacaoEmailUsuario.validarEmailUsuario(pegarPessoa(id), usuarioService.findUserByName(email.toString()));
+        validarEmailUsuario(pegarPessoa(id), usuarioService.retornaEmailUsuario());
 
         Pessoa pessoaNova = new Pessoa.Builder()
                 .nome(nova.getNome())
@@ -118,8 +118,7 @@ public class PessoaService {
     }
 
     public void deletarPessoa(Long id){
-        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ValidacaoEmailUsuario.validarEmailUsuario(pegarPessoa(id), usuarioService.findUserByName(email.toString()));
+        validarEmailUsuario(pegarPessoa(id), usuarioService.retornaEmailUsuario());
 
         List<Categoria> listCat = categoriaService.listarCategoriasPessoa(pegarPessoa(id));
 

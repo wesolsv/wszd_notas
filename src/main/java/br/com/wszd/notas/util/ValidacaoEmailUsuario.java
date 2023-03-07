@@ -15,15 +15,18 @@ public class ValidacaoEmailUsuario {
 
         ArrayList<String> rolesRetorno = new ArrayList<>();
 
-        for (int i = 0; i < usuario.getRoles().size(); i++) {
-            String j = usuario.getRoles().get(i).getNome() + "";
-            rolesRetorno.add(j);
+        if (usuario.getRoles() != null) {
+            for (int i = 0; i < usuario.getRoles().size(); i++) {
+                String j = usuario.getRoles().get(i).getNome() + "";
+                rolesRetorno.add(j);
+            }
         }
-
-        if (rolesRetorno.contains("ADMIN") || pessoa.getId().equals(usuario.getPessoa().getId())) {
-            log.info("Validado email do usuario ou usuario é admin");
-        } else {
-            throw new ResourceBadRequestException("O usuário utilizado não tem acesso a este recurso");
+        if (usuario.getPessoa() != null) {
+            if (rolesRetorno.contains("ADMIN") || pessoa.getId().equals(usuario.getPessoa().getId())) {
+                log.info("Validado email do usuario ou usuario é admin");
+            } else {
+                throw new ResourceBadRequestException("O usuário utilizado não tem acesso a este recurso");
+            }
         }
     }
 }

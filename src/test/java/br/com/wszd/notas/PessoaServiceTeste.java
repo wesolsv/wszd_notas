@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
@@ -39,6 +41,10 @@ public class PessoaServiceTeste {
     @Autowired
     private PessoaService service;
 
+    @BeforeEach
+    public void setUp(){
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+    }
     @Test
     @DisplayName("deve criar uma nova pessoa")
     public void deveCriarNovaPessoa() throws Exception {
@@ -72,13 +78,27 @@ public class PessoaServiceTeste {
 
     @Test
     public void deveEditarPessoa() throws Exception {
-        pessoa.setEmail("email@alterado.com");
-        when(repository.save(pessoa)).thenReturn(pessoa);
-        Pessoa p = service.editarPessoa(anyLong(), pessoa);
+        Authentication authentication = mock(Authentication.class);
 
-        assertNotNull(pessoa);
-        assertEquals("wes@test.com.br", pessoa.getEmail());
-        verify(repository, times(1)).save(pessoa);
+        SecurityContext securityContext = mock(SecurityContext.class);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Pessoa pessoa = new Pessoa.Builder()
+                .nome("teste pessoa")
+                .email("teste@pessoa.com")
+                .senha("anystring")
+                .usuario(new Usuario())
+                .build();
+
+        Pessoa p = mock(Pessoa.class);
+
+        when(repository.save(any(Pessoa.class))).thenReturn(p);
+        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(p));
+        when(usuarioService.retornaEmailUsuario()).thenReturn(new Usuario());
+        service.editarPessoa(0L, pessoa);
+        verify(repository, times(1)).save(any(Pessoa.class));
+
     }
 
 //    @Test

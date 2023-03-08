@@ -13,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import br.com.wszd.notas.util.ValidacaoUsuarioLogged;
 
 import java.util.List;
-
-import static br.com.wszd.notas.util.ValidacaoUsuarioLogged.validarEmailPessoaUsuario;
 
 @Service
 @Slf4j
@@ -96,7 +95,7 @@ public class PessoaService {
     }
 
     public Pessoa editarPessoa(Long id, Pessoa nova){
-        validarEmailPessoaUsuario(pegarPessoa(id));
+        ValidacaoUsuarioLogged.validarEmailPessoaUsuario(pegarPessoa(id), usuarioService.retornaEmailUsuario());
 
         Pessoa pessoaNova = new Pessoa.Builder()
                 .nome(nova.getNome())
@@ -117,7 +116,7 @@ public class PessoaService {
     }
 
     public void deletarPessoa(Long id){
-        validarEmailPessoaUsuario(pegarPessoa(id));
+        ValidacaoUsuarioLogged.validarEmailPessoaUsuario(pegarPessoa(id), usuarioService.retornaEmailUsuario());
 
         List<Categoria> listCat = categoriaService.listarCategoriasPessoa(pegarPessoa(id));
 

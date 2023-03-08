@@ -18,18 +18,16 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static br.com.wszd.notas.util.ValidacaoUsuarioLogged.validarUsuarioNota;
-
 @Service
 public class NotaService {
 
     @Autowired
     private NotaRepository repository;
-
     @Lazy
     @Autowired
     private CategoriaService categoriaService;
-
+    @Autowired
+    private UsuarioService usuarioService;
     @Autowired
     private PessoaService pessoaService;
     @Autowired
@@ -85,8 +83,9 @@ public class NotaService {
             Categoria padraoCat = categoriaService.pegarCategoriaByName("PADRAO", nova.getPessoa().getId());
 
             nova.setCategoria(padraoCat);
-            nova.setCategoriaNome(nova.getCategoria().getNome());
-
+            if(nova.getCategoria() != null){
+                nova.setCategoriaNome(nova.getCategoria().getNome());
+            }
             return nova;
         }
 
@@ -105,7 +104,7 @@ public class NotaService {
     public Nota editarNota(Long id, Nota novaNota){
         Nota notaAntiga = pegarNotaCompleta(id);
 
-        validarUsuarioNota(notaAntiga);
+        ValidacaoUsuarioLogged.validarUsuarioNota(notaAntiga, usuarioService.retornaEmailUsuario());
 
         Nota objBuilderNota = new Nota.Builder()
                 .nome(novaNota.getNome())
@@ -118,11 +117,9 @@ public class NotaService {
                 .build();
 
         objBuilderNota.setId(id);
-
+        //gerarLog(Operacoes.EDITAR, novaNota.getClass().getSimpleName(), "Editando a nota " + notaAntiga.getNome(), notaAntiga.getPessoa().getEmail());
         try{
             objBuilderNota = ajusteCategoria(objBuilderNota);
-
-            gerarLog(Operacoes.EDITAR, novaNota.getClass().getSimpleName(), "Editando a nota " + notaAntiga.getNome(), notaAntiga.getPessoa().getEmail());
 
             return repository.save(objBuilderNota);
         }catch (ResourceInternalException e){
@@ -132,7 +129,7 @@ public class NotaService {
 
     public void deletarNota(Long id){
         Nota nota = pegarNotaCompleta(id);
-        validarUsuarioNota(nota);
+        ValidacaoUsuarioLogged.validarUsuarioNota(nota, usuarioService.retornaEmailUsuario());
 
         gerarLog(Operacoes.DELETAR, nota.getClass().getSimpleName(), "Deletando a nota " + nota.getNome(), nota.getPessoa().getEmail());
 

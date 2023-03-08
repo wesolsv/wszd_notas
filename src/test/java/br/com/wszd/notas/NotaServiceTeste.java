@@ -1,15 +1,9 @@
 package br.com.wszd.notas;
 
-import br.com.wszd.notas.model.Categoria;
-import br.com.wszd.notas.model.Nota;
-import br.com.wszd.notas.model.Pessoa;
-import br.com.wszd.notas.model.Usuario;
+import br.com.wszd.notas.model.*;
 import br.com.wszd.notas.repository.CategoriaRepository;
 import br.com.wszd.notas.repository.NotaRepository;
-import br.com.wszd.notas.service.CategoriaService;
-import br.com.wszd.notas.service.NotaService;
-import br.com.wszd.notas.service.PessoaService;
-import br.com.wszd.notas.service.UsuarioService;
+import br.com.wszd.notas.service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -39,6 +33,9 @@ public class NotaServiceTeste {
     private CategoriaService categoriaService;
     @MockBean
     private PessoaService pessoaService;
+    @Lazy
+    @MockBean
+    private LogsService logsService;
     @MockBean
     public UsuarioService usuarioService;
     @Autowired
@@ -77,14 +74,16 @@ public class NotaServiceTeste {
     @Test
     public void deveEditarNota() throws Exception {
 
-        nota.setNome("Teste edição");
-        when(repository.findById(anyLong())).thenReturn(Optional.of(nota));
+        Nota n = mock(Nota.class);
+
+        when(repository.findById(anyLong())).thenReturn(Optional.of(n));
         when(usuarioService.retornaEmailUsuario()).thenReturn(new Usuario());
-        when(repository.save(nota)).thenReturn(nota);
+        when(repository.save(n)).thenReturn(n);
         when(categoriaService.pegarCategoriaByName(anyString(), anyLong())).thenReturn(new Categoria());
         service.editarNota(anyLong(), nota);
 
         verify(repository, times(1)).save(nota);
+        verify(repository, times(1)).findById(anyLong());
     }
 
 //    @Test

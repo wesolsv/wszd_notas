@@ -8,12 +8,19 @@ import br.com.wszd.notas.repository.CategoriaRepository;
 import br.com.wszd.notas.repository.NotaRepository;
 import br.com.wszd.notas.service.CategoriaService;
 import br.com.wszd.notas.service.NotaService;
+import br.com.wszd.notas.service.PessoaService;
+import br.com.wszd.notas.service.UsuarioService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
 import java.util.Optional;
@@ -25,9 +32,16 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class NotaServiceTeste {
 
-    @Mock
+    @MockBean
     private NotaRepository repository;
-    @InjectMocks
+    @Lazy
+    @MockBean
+    private CategoriaService categoriaService;
+    @MockBean
+    private PessoaService pessoaService;
+    @MockBean
+    public UsuarioService usuarioService;
+    @Autowired
     private NotaService service;
 
     Usuario usuario;
@@ -60,16 +74,18 @@ public class NotaServiceTeste {
         verify(repository, times(1)).findById(anyLong());
     }
 
-//    @Test
-//    public void deveEditarNota() throws Exception {
-//        nota.setNome("Teste edição");
-//        when(repository.save(nota)).thenReturn(nota);
-//        Nota n = service.editarNota(anyLong(), nota);
-//
-//        assertNotNull(nota);
-//        assertEquals("Teste edição", nota.getNome());
-//        verify(repository, times(1)).save(nota);
-//    }
+    @Test
+    public void deveEditarNota() throws Exception {
+
+        nota.setNome("Teste edição");
+        when(repository.findById(anyLong())).thenReturn(Optional.of(nota));
+        when(usuarioService.retornaEmailUsuario()).thenReturn(new Usuario());
+        when(repository.save(nota)).thenReturn(nota);
+        when(categoriaService.pegarCategoriaByName(anyString(), anyLong())).thenReturn(new Categoria());
+        service.editarNota(anyLong(), nota);
+
+        verify(repository, times(1)).save(nota);
+    }
 
 //    @Test
 //    public void deletarUsuario() throws Exception {

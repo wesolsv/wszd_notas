@@ -2,7 +2,6 @@ package br.com.wszd.notas.service;
 
 import br.com.wszd.notas.dto.NotaDTO;
 import br.com.wszd.notas.dto.PessoaDTO;
-import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceInternalException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Categoria;
@@ -10,15 +9,16 @@ import br.com.wszd.notas.model.Logs;
 import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.repository.NotaRepository;
 import br.com.wszd.notas.util.Operacoes;
+import br.com.wszd.notas.util.ValidacaoUsuarioLogged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static br.com.wszd.notas.util.ValidacaoUsuarioLogged.validarUsuarioNota;
 
 @Service
 public class NotaService {
@@ -103,8 +103,9 @@ public class NotaService {
     }
 
     public Nota editarNota(Long id, Nota novaNota){
-        validaRequisicao(id);
         Nota notaAntiga = pegarNotaCompleta(id);
+
+        validarUsuarioNota(notaAntiga);
 
         Nota objBuilderNota = new Nota.Builder()
                 .nome(novaNota.getNome())
@@ -130,8 +131,8 @@ public class NotaService {
     }
 
     public void deletarNota(Long id){
-        validaRequisicao(id);
         Nota nota = pegarNotaCompleta(id);
+        validarUsuarioNota(nota);
 
         gerarLog(Operacoes.DELETAR, nota.getClass().getSimpleName(), "Deletando a nota " + nota.getNome(), nota.getPessoa().getEmail());
 
@@ -166,18 +167,6 @@ public class NotaService {
         }
 
         gerarLog(Operacoes.DELETAR, "Nota", "Deletando todas as notas por ids" , email.toString());
-    }
-
-    public boolean validaRequisicao(Long id){
-        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
-
-        Nota nota = pegarNotaCompleta(id);
-
-        if(nota.getPessoa().getId() != pessoa.getId()){
-            throw new ResourceBadRequestException("O usuário não tem acesso a esta nota");
-        }
-        return true;
     }
 
     public void gerarLog(Operacoes operacao, String modulo, String detalhes, String nomeUsuario) {

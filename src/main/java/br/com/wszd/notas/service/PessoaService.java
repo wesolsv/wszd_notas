@@ -11,13 +11,12 @@ import br.com.wszd.notas.util.Operacoes;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static br.com.wszd.notas.util.ValidacaoEmailUsuario.validarEmailUsuario;
+import static br.com.wszd.notas.util.ValidacaoUsuarioLogged.validarEmailPessoaUsuario;
 
 @Service
 @Slf4j
@@ -97,7 +96,7 @@ public class PessoaService {
     }
 
     public Pessoa editarPessoa(Long id, Pessoa nova){
-        validarEmailUsuario(pegarPessoa(id), usuarioService.retornaEmailUsuario());
+        validarEmailPessoaUsuario(pegarPessoa(id));
 
         Pessoa pessoaNova = new Pessoa.Builder()
                 .nome(nova.getNome())
@@ -118,7 +117,7 @@ public class PessoaService {
     }
 
     public void deletarPessoa(Long id){
-        validarEmailUsuario(pegarPessoa(id), usuarioService.retornaEmailUsuario());
+        validarEmailPessoaUsuario(pegarPessoa(id));
 
         List<Categoria> listCat = categoriaService.listarCategoriasPessoa(pegarPessoa(id));
 

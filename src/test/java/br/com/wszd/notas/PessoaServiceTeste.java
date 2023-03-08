@@ -1,8 +1,6 @@
 package br.com.wszd.notas;
 
 import br.com.wszd.notas.dto.PessoaDTO;
-import br.com.wszd.notas.model.Categoria;
-import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.PessoaRepository;
@@ -10,17 +8,12 @@ import br.com.wszd.notas.service.CategoriaService;
 import br.com.wszd.notas.service.LogsService;
 import br.com.wszd.notas.service.PessoaService;
 import br.com.wszd.notas.service.UsuarioService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
@@ -41,10 +34,6 @@ public class PessoaServiceTeste {
     @Autowired
     private PessoaService service;
 
-    @BeforeEach
-    public void setUp(){
-        Authentication a = SecurityContextHolder.getContext().getAuthentication();
-    }
     @Test
     @DisplayName("deve criar uma nova pessoa")
     public void deveCriarNovaPessoa() throws Exception {
@@ -78,11 +67,6 @@ public class PessoaServiceTeste {
 
     @Test
     public void deveEditarPessoa() throws Exception {
-        Authentication authentication = mock(Authentication.class);
-
-        SecurityContext securityContext = mock(SecurityContext.class);
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
 
         Pessoa pessoa = new Pessoa.Builder()
                 .nome("teste pessoa")
@@ -98,7 +82,7 @@ public class PessoaServiceTeste {
         when(usuarioService.retornaEmailUsuario()).thenReturn(new Usuario());
         service.editarPessoa(0L, pessoa);
         verify(repository, times(1)).save(any(Pessoa.class));
-
+        verify(repository, times(1)).findById(anyLong());
     }
 
 //    @Test

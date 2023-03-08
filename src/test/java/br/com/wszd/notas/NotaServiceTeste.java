@@ -1,5 +1,6 @@
 package br.com.wszd.notas;
 
+import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.model.*;
 import br.com.wszd.notas.repository.CategoriaRepository;
 import br.com.wszd.notas.repository.NotaRepository;
@@ -38,6 +39,8 @@ public class NotaServiceTeste {
     private LogsService logsService;
     @MockBean
     public UsuarioService usuarioService;
+    @MockBean
+    private EmailService emailService;
     @Autowired
     private NotaService service;
 
@@ -50,31 +53,39 @@ public class NotaServiceTeste {
         pessoa = new Pessoa(null, "Teste","wes@test.com.br", "123456", null);
     }
 
-//    @Test
-//    public void deveCriarNovaNota() throws Exception {
-//        when(repository.save(nota)).thenReturn(nota);
-//        nota = service.novaNota(nota);
-//
-//        assertNotNull(nota);
-//        assertEquals("Primeira Nota", pessoa.getNome());
-//        verify(repository, times(1)).save(nota);
-//    }
+    @Test
+    public void deveCriarNovaNota() throws Exception {
+
+        Pessoa pessoa = new Pessoa.Builder()
+                .nome("teste pessoa")
+                .email("teste@pessoa.com")
+                .senha("anystring")
+                .usuario(new Usuario())
+                .build();
+
+        Categoria categoria = new Categoria("TESTE", pessoa);
+        Nota nota = mock(Nota.class);
+
+        when(nota.getPessoa()).thenReturn(pessoa);
+        when(nota.getCategoria()).thenReturn(categoria);
+
+        when(usuarioService.retornaEmailUsuario()).thenReturn(new Usuario());
+        when(repository.save(nota)).thenReturn(nota);
+        when(categoriaService.pegarCategoriaByName(anyString(), anyLong())).thenReturn(categoria);
+        when(pessoaService.pegarPessoaDTO(anyLong())).thenReturn(new PessoaDTO());
+        service.novaNota(nota);
+
+        verify(repository, times(1)).save(any(Nota.class));
+    }
 
     @Test
     public void deveRetornarNota() throws Exception{
 
-        Nota nota = new Nota.Builder()
-                .nome("Teste")
-                .conteudo("desc")
-                .pessoa(pessoa)
-                .categoria(new Categoria())
-                .categoriaNome("nome")
-                .build();
+        Nota nota = mock(Nota.class);
 
         when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(nota));
         nota = service.pegarNotaCompleta(anyLong());
 
-        assertNotNull(nota);
         verify(repository, times(1)).findById(anyLong());
     }
 
@@ -104,10 +115,27 @@ public class NotaServiceTeste {
         verify(repository, times(1)).save(any(Nota.class));
     }
 
-//    @Test
-//    public void deletarUsuario() throws Exception {
-//        service.deletarNota(anyLong());
-//
-//        verify(repository, times(1)).deleteById(any());
-//    }
+    @Test
+    public void deletarUsuario() throws Exception {
+
+        Pessoa pessoa = new Pessoa.Builder()
+                .nome("teste pessoa")
+                .email("teste@pessoa.com")
+                .senha("anystring")
+                .usuario(new Usuario())
+                .build();
+
+        Categoria categoria = new Categoria("TESTE", pessoa);
+        Nota nota = mock(Nota.class);
+
+        when(nota.getPessoa()).thenReturn(pessoa);
+        when(nota.getCategoria()).thenReturn(categoria);
+
+        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(nota));
+        when(usuarioService.retornaEmailUsuario()).thenReturn(new Usuario());
+        when(categoriaService.pegarCategoriaByName(anyString(), anyLong())).thenReturn(categoria);
+        service.deletarNota(anyLong());
+
+        verify(repository, times(1)).deleteById(any());
+    }
 }

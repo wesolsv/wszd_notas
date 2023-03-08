@@ -43,13 +43,11 @@ public class NotaServiceTeste {
 
     Usuario usuario;
     Pessoa pessoa;
-    Nota nota;
 
     @BeforeEach
     public void setUp(){
         usuario = new Usuario("wes@test.com.br", "123456", new Pessoa());
         pessoa = new Pessoa(null, "Teste","wes@test.com.br", "123456", null);
-        nota = new Nota("Primeira Nota", "Descrição aleatória", new Pessoa(), new Categoria("PADRAO", pessoa));
     }
 
 //    @Test
@@ -64,6 +62,15 @@ public class NotaServiceTeste {
 
     @Test
     public void deveRetornarNota() throws Exception{
+
+        Nota nota = new Nota.Builder()
+                .nome("Teste")
+                .conteudo("desc")
+                .pessoa(pessoa)
+                .categoria(new Categoria())
+                .categoriaNome("nome")
+                .build();
+
         when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(nota));
         nota = service.pegarNotaCompleta(anyLong());
 
@@ -74,16 +81,27 @@ public class NotaServiceTeste {
     @Test
     public void deveEditarNota() throws Exception {
 
-        Nota n = mock(Nota.class);
+        Pessoa pessoa = new Pessoa.Builder()
+                .nome("teste pessoa")
+                .email("teste@pessoa.com")
+                .senha("anystring")
+                .usuario(new Usuario())
+                .build();
 
-        when(repository.findById(anyLong())).thenReturn(Optional.of(n));
+        Categoria categoria = new Categoria("TESTE", pessoa);
+        Nota nota = mock(Nota.class);
+
+        when(nota.getPessoa()).thenReturn(pessoa);
+        when(nota.getCategoria()).thenReturn(categoria);
+
+        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(nota));
         when(usuarioService.retornaEmailUsuario()).thenReturn(new Usuario());
-        when(repository.save(n)).thenReturn(n);
-        when(categoriaService.pegarCategoriaByName(anyString(), anyLong())).thenReturn(new Categoria());
+        when(repository.save(nota)).thenReturn(nota);
+        when(categoriaService.pegarCategoriaByName(anyString(), anyLong())).thenReturn(categoria);
         service.editarNota(anyLong(), nota);
 
-        verify(repository, times(1)).save(nota);
         verify(repository, times(1)).findById(anyLong());
+        verify(repository, times(1)).save(any(Nota.class));
     }
 
 //    @Test

@@ -80,7 +80,7 @@ public class UsuarioService {
 
     }
 
-    public Usuario addRoleInUser(UserRoleDTO userRoleDTO) {
+    private Usuario addRoleInUser(UserRoleDTO userRoleDTO) {
         log.info("Adicionando role ao usuario");
         Optional<Usuario> userExists = repository.findById(userRoleDTO.getIdUser());
         List<Role> roles = new ArrayList<>();
@@ -102,8 +102,9 @@ public class UsuarioService {
         return usuario;
     }
 
-    public SessaoDTO validarLogin(Usuario usuario, UserLoginDTO infoLogin) {
+    public SessaoDTO validarLogin(UserLoginDTO infoLogin) {
         log.info("Validando senha e retornando sessao");
+        Usuario usuario = findUserByName(infoLogin.getEmail());
         if(usuario!=null) {
             boolean passwordOk = passwordEncoder().matches(infoLogin.getSenha(),usuario.getSenha());
             if (!passwordOk) {

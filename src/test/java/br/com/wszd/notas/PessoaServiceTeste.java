@@ -39,10 +39,11 @@ public class PessoaServiceTeste {
 
         Pessoa pessoa = mock(Pessoa.class);
 
+        when(pessoa.getSenha()).thenReturn("123456");
         when(repository.save(any(Pessoa.class))).thenReturn(pessoa);
         service.novaPessoa(pessoa);
 
-        verify(repository, times(1)).save(pessoa);
+        verify(repository, times(1)).save(any(Pessoa.class));
     }
 
     @Test

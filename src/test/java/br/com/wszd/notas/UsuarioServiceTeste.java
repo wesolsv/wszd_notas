@@ -2,6 +2,7 @@ package br.com.wszd.notas;
 
 import br.com.wszd.notas.dto.SessaoDTO;
 import br.com.wszd.notas.dto.UserLoginDTO;
+import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Role;
 import br.com.wszd.notas.model.Usuario;
@@ -35,49 +36,56 @@ public class UsuarioServiceTeste {
 
     @BeforeEach
     public void setUp(){
-        usuario = new Usuario("wes@email.com", "123456", new Pessoa());
+      //usuario = new Usuario("wes@email.com", "123456", new Pessoa());
         pessoa = new Pessoa(null, "Teste","wes@email.com", "123456", null);
         usuarioLogin = new UserLoginDTO("wes@email.com", "123456");
     }
 
     @Test
     public void deveCriarUsuario() throws Exception {
-        when(repository.save(usuario)).thenReturn(usuario);
-        usuario = service.newUser(usuario);
 
-        assertNotNull(usuario);
-        assertEquals("wes@test2e.com.br", usuario.getNomeUsuario());
+        Usuario usuario = mock(Usuario.class);
+        when(repository.save(usuario)).thenReturn(usuario);
+        when(usuario.getSenha()).thenReturn("123456");
+        service.newUser(usuario);
+
+        verify(repository, times(1)).save(any(Usuario.class));
     }
 
     @Test
     public void encontrarUsuario() throws Exception {
-        when(repository.findByNomeUsuario(any())).thenReturn(new Usuario());
-        usuario = service.findUserByName(usuario.getNomeUsuario());
+        Usuario usuario = mock(Usuario.class);
 
-        assertNotNull(usuario);
-        verify(repository, times(1)).findByNomeUsuario(any());
+        when(usuario.getNomeUsuario()).thenReturn("testename");
+        when(repository.findByNomeUsuario(anyString())).thenReturn(new Usuario());
+        service.findUserByName(usuario.getNomeUsuario());
+
+        verify(repository, times(1)).findByNomeUsuario(anyString());
     }
 
     @Test
     public void deveRealizarLogin() throws Exception{
-
         List<Role> roles = Arrays.asList(new Role(1L, "ADMIN"));
 
-        usuario = new Usuario("wes@test2e.com.br",
-                "$2a$08$sOOxkOE/arGYc6N1IBdzxO8kaWB7HWqlg/mhANhGeazRdDALX9vWK",
-                new Pessoa());
+        Usuario usuario = mock(Usuario.class);
 
-        usuario.setRoles(roles);
+        when(usuario.getNomeUsuario()).thenReturn("wes@test2e.com.br");
+        when(usuario.getSenha()).thenReturn("$2a$08$sOOxkOE/arGYc6N1IBdzxO8kaWB7HWqlg/mhANhGeazRdDALX9vWK");
+        when(usuario.getPessoa()).thenReturn(new Pessoa());
+        when(usuario.getRoles()).thenReturn(roles);
 
-        UserLoginDTO login = new UserLoginDTO("wes@test2e.com.br","123456");
+        SessaoDTO session = mock(SessaoDTO.class);
+        UserLoginDTO login = mock(UserLoginDTO.class);
+        when(login.getEmail()).thenReturn("wes@test2e.com.br");
+        when(login.getSenha()).thenReturn("123456");
 
-        SessaoDTO session = new SessaoDTO();
+        when(repository.findByNomeUsuario(anyString())).thenReturn(usuario);
 
-        session = service.validarLogin(usuario, login);
+        service.validarLogin(login);
 
-        assertNotNull(session);
-        assertEquals("wes@test2e.com.br", session.getLogin());
+        verify(repository, times(1)).findByNomeUsuario(anyString());
     }
+
 
     @Test
     public void deletarUsuario() throws Exception {

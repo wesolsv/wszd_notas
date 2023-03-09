@@ -24,8 +24,7 @@ public class UsuarioController {
     @ApiOperation(value = "Realiza o Login do usuario e retorna o seu token")
     @ResponseBody
     public SessaoDTO logar(@RequestBody UserLoginDTO infoLogin){
-        Usuario user = service.findUserByName(infoLogin.getEmail());
-        return service.validarLogin(user, infoLogin);
+        return service.validarLogin(infoLogin);
     }
 
     @ApiOperation(value = "Deletando um usuario")

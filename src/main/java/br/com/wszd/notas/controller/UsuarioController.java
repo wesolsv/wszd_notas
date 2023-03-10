@@ -15,11 +15,6 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
-    @PostMapping
-    public void novoUsuario(@RequestBody Usuario user){
-        service.newUser(user);
-    }
-
     @PostMapping("/login")
     @ApiOperation(value = "Realiza o Login do usuario e retorna o seu token")
     @ResponseBody

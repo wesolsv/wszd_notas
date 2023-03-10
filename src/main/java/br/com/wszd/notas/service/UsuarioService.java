@@ -44,30 +44,25 @@ public class UsuarioService {
     }
 
     public void novoUsuario(Pessoa pessoa){
-        List<Long> listIdRoles = Arrays.asList(1L);
 
-        Usuario usuario = repository.save(new Usuario.Builder()
-                .nomeUsuario(pessoa.getEmail())
-                .senha(pessoa.getSenha())
-                .pessoa(pessoa)
-                .build());
+        Usuario usuario = newUser(pessoa);
 
         //Criando e atribuindo a role ao user
-        UserRoleDTO userRoleDTO = new UserRoleDTO(usuario.getId(), listIdRoles);
-        addRoleInUser(userRoleDTO);
+        addRoleInUser(usuario);
 
-        repository.save(usuario);
-
-        gerarLog(Operacoes.ADICIONAR, usuario.getClass().getSimpleName(), "Inclusão de novo usuário " + usuario.getNomeUsuario(), usuario.getNomeUsuario());
+        gerarLog(Operacoes.ADICIONAR, Usuario.class.getSimpleName(), "Inclusão de novo usuário " + pessoa.getNome(), pessoa.getEmail());
 
         emailService.enviarEmailNovoUsuario(usuario);
     }
 
-    public Usuario newUser(Usuario user) {
-        String senha = user.getSenha();
+    public Usuario newUser(Pessoa pessoa) {
+        Usuario usuario = new Usuario.Builder()
+                .nomeUsuario(pessoa.getEmail())
+                .senha(pessoa.getSenha())
+                .pessoa(pessoa)
+                .build();
 
-        user.setSenha(passwordEncoder().encode(senha));
-        return repository.save(user);
+        return repository.save(usuario);
     }
 
     public Usuario findUserByName(String nomeUsuario){
@@ -80,26 +75,26 @@ public class UsuarioService {
 
     }
 
-    private Usuario addRoleInUser(UserRoleDTO userRoleDTO) {
+    private Usuario addRoleInUser(Usuario usuario) {
         log.info("Adicionando role ao usuario");
-        Optional<Usuario> userExists = repository.findById(userRoleDTO.getIdUser());
-        List<Role> roles = new ArrayList<>();
+
+        List<Long> listIdRoles = Arrays.asList(1L);
+
+        UserRoleDTO userRoleDTO = new UserRoleDTO(usuario.getId(), listIdRoles);
+
+        Optional<Usuario> userExists = repository.findById(usuario.getId());
 
         if (userExists.isEmpty()) {
             throw new Error("Usuario não existe!");
         }
 
-        roles = userRoleDTO.getIdsRoles().stream().map(role -> {
-            return new Role(role);
-        }).collect(Collectors.toList());
-
-        Usuario usuario = userExists.get();
+        List<Role> roles = userRoleDTO.getIdsRoles()
+                .stream()
+                .map(role -> new Role(role) ).collect(Collectors.toList());
 
         usuario.setRoles(roles);
 
-        repository.save(usuario);
-
-        return usuario;
+        return repository.save(usuario);
     }
 
     public SessaoDTO validarLogin(UserLoginDTO infoLogin) {

@@ -84,11 +84,4 @@ public class PessoaServiceTeste {
         verify(repository, times(1)).save(any(Pessoa.class));
         verify(repository, times(1)).findById(anyLong());
     }
-
-//    @Test
-//    public void deletarUsuario() throws Exception {
-//        service.deletarPessoa(anyLong());
-//
-//        verify(repository, times(1)).deleteById(any());
-//    }
 }

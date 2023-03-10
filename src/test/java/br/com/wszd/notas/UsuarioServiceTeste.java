@@ -2,6 +2,7 @@ package br.com.wszd.notas;
 
 import br.com.wszd.notas.dto.SessaoDTO;
 import br.com.wszd.notas.dto.UserLoginDTO;
+import br.com.wszd.notas.dto.UserRoleDTO;
 import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Role;
@@ -29,27 +30,31 @@ public class UsuarioServiceTeste {
     private UsuarioRepository repository;
     @InjectMocks
     private UsuarioService service;
-    Usuario usuario;
-    Pessoa pessoa;
-
-    UserLoginDTO usuarioLogin;
-
-    @BeforeEach
-    public void setUp(){
-      //usuario = new Usuario("wes@email.com", "123456", new Pessoa());
-        pessoa = new Pessoa(null, "Teste","wes@email.com", "123456", null);
-        usuarioLogin = new UserLoginDTO("wes@email.com", "123456");
-    }
 
     @Test
     public void deveCriarUsuario() throws Exception {
+        List<Role> roles = Arrays.asList(new Role(1L, "ADMIN"));
 
         Usuario usuario = mock(Usuario.class);
-        when(repository.save(usuario)).thenReturn(usuario);
-        when(usuario.getSenha()).thenReturn("123456");
-        service.newUser(usuario);
 
-        verify(repository, times(1)).save(any(Usuario.class));
+        when(usuario.getNomeUsuario()).thenReturn("wes@test2e.com.br");
+        when(usuario.getSenha()).thenReturn("$2a$08$sOOxkOE/arGYc6N1IBdzxO8kaWB7HWqlg/mhANhGeazRdDALX9vWK");
+        when(usuario.getPessoa()).thenReturn(new Pessoa());
+        when(usuario.getRoles()).thenReturn(roles);
+
+        Pessoa pessoa = mock(Pessoa.class);
+
+        when(pessoa.getEmail()).thenReturn("email@email.com");
+        when(pessoa.getSenha()).thenReturn("123456");
+
+        UserRoleDTO userRoleDTO = mock(UserRoleDTO.class);
+        when(userRoleDTO.getIdUser()).thenReturn(0L);
+
+        when(usuario.getId()).thenReturn(0L);
+        service.novoUsuario(pessoa);
+
+        verify(repository, times(3)).save(any(Usuario.class));
+        verify(repository, times(1)).findById(anyLong());
     }
 
     @Test
@@ -74,7 +79,6 @@ public class UsuarioServiceTeste {
         when(usuario.getPessoa()).thenReturn(new Pessoa());
         when(usuario.getRoles()).thenReturn(roles);
 
-        SessaoDTO session = mock(SessaoDTO.class);
         UserLoginDTO login = mock(UserLoginDTO.class);
         when(login.getEmail()).thenReturn("wes@test2e.com.br");
         when(login.getSenha()).thenReturn("123456");
@@ -86,6 +90,10 @@ public class UsuarioServiceTeste {
         verify(repository, times(1)).findByNomeUsuario(anyString());
     }
 
+    @Test
+    public void editarUsuario() throws Exception {
+
+    }
 
     @Test
     public void deletarUsuario() throws Exception {

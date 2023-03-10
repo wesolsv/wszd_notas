@@ -37,24 +37,22 @@ public class UsuarioServiceTeste {
 
         Usuario usuario = mock(Usuario.class);
 
+        when(usuario.getId()).thenReturn(0L);
         when(usuario.getNomeUsuario()).thenReturn("wes@test2e.com.br");
         when(usuario.getSenha()).thenReturn("$2a$08$sOOxkOE/arGYc6N1IBdzxO8kaWB7HWqlg/mhANhGeazRdDALX9vWK");
         when(usuario.getPessoa()).thenReturn(new Pessoa());
         when(usuario.getRoles()).thenReturn(roles);
 
         Pessoa pessoa = mock(Pessoa.class);
-
         when(pessoa.getEmail()).thenReturn("email@email.com");
         when(pessoa.getSenha()).thenReturn("123456");
 
         UserRoleDTO userRoleDTO = mock(UserRoleDTO.class);
         when(userRoleDTO.getIdUser()).thenReturn(0L);
 
-        when(usuario.getId()).thenReturn(0L);
         service.novoUsuario(pessoa);
 
-        verify(repository, times(3)).save(any(Usuario.class));
-        verify(repository, times(1)).findById(anyLong());
+        verify(repository, times(2)).save(any(Usuario.class));
     }
 
     @Test

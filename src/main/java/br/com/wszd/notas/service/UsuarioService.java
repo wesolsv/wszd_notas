@@ -75,18 +75,12 @@ public class UsuarioService {
 
     }
 
-    private Usuario addRoleInUser(Usuario usuario) {
+    public Usuario addRoleInUser(Usuario usuario) {
         log.info("Adicionando role ao usuario");
 
         List<Long> listIdRoles = Arrays.asList(1L);
 
         UserRoleDTO userRoleDTO = new UserRoleDTO(usuario.getId(), listIdRoles);
-
-        Optional<Usuario> userExists = repository.findById(usuario.getId());
-
-        if (userExists.isEmpty()) {
-            throw new Error("Usuario não existe!");
-        }
 
         List<Role> roles = userRoleDTO.getIdsRoles()
                 .stream()

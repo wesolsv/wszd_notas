@@ -33,6 +33,18 @@ public class UsuarioServiceTeste {
 
     @Test
     public void deveCriarUsuario() throws Exception {
+
+        Pessoa pessoa = mock(Pessoa.class);
+        when(pessoa.getEmail()).thenReturn("email@email.com");
+        when(pessoa.getSenha()).thenReturn("123456");
+
+        service.newUser(pessoa);
+
+        verify(repository, times(1)).save(any(Usuario.class));
+    }
+
+    @Test
+    public void deveAdicionarRoleUsuario() throws Exception {
         List<Role> roles = Arrays.asList(new Role(1L, "ADMIN"));
 
         Usuario usuario = mock(Usuario.class);
@@ -43,16 +55,12 @@ public class UsuarioServiceTeste {
         when(usuario.getPessoa()).thenReturn(new Pessoa());
         when(usuario.getRoles()).thenReturn(roles);
 
-        Pessoa pessoa = mock(Pessoa.class);
-        when(pessoa.getEmail()).thenReturn("email@email.com");
-        when(pessoa.getSenha()).thenReturn("123456");
-
         UserRoleDTO userRoleDTO = mock(UserRoleDTO.class);
         when(userRoleDTO.getIdUser()).thenReturn(0L);
 
-        service.novoUsuario(pessoa);
+        service.addRoleInUser(usuario);
 
-        verify(repository, times(2)).save(any(Usuario.class));
+        verify(repository, times(1)).save(any(Usuario.class));
     }
 
     @Test

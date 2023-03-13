@@ -1,15 +1,12 @@
 package br.com.wszd.notas;
 
-import br.com.wszd.notas.dto.SessaoDTO;
 import br.com.wszd.notas.dto.UserLoginDTO;
 import br.com.wszd.notas.dto.UserRoleDTO;
-import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Role;
 import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.UsuarioRepository;
 import br.com.wszd.notas.service.UsuarioService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -19,8 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -75,7 +70,7 @@ public class UsuarioServiceTeste {
     }
 
     @Test
-    public void deveRealizarLogin() throws Exception{
+    public void deveRealizarLogin() throws Exception {
         List<Role> roles = Arrays.asList(new Role(1L, "ADMIN"));
 
         Usuario usuario = mock(Usuario.class);

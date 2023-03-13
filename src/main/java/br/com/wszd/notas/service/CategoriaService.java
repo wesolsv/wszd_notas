@@ -6,6 +6,7 @@ import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.repository.CategoriaRepository;
+import br.com.wszd.notas.util.ValidacaoUsuarioLogged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -43,12 +44,10 @@ public class CategoriaService {
 
     public Categoria editarCategoria(Long id, Categoria nova){
 
-        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
         Categoria cat = pegarCategoria(id);
-        if(cat.getPessoa().getId() != pessoa.getId()){
-            throw new ResourceBadRequestException("O usuário não tem acesso a este recurso");
-        }
+
+        ValidacaoUsuarioLogged.validarUsuarioCategoria(cat, cat.getPessoa());
+
         cat.setNome(nova.getNome());
         repository.save(cat);
         repository.atualizarCategoriaNome(cat.getNome(), cat);

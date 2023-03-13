@@ -4,17 +4,13 @@ import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.PessoaRepository;
-import br.com.wszd.notas.service.CategoriaService;
-import br.com.wszd.notas.service.LogsService;
 import br.com.wszd.notas.service.PessoaService;
 import br.com.wszd.notas.service.UsuarioService;
-import br.com.wszd.notas.util.ValidacaoUsuarioLogged;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Lazy;
 
 import java.util.Optional;
 
@@ -27,9 +23,6 @@ public class PessoaServiceTeste {
     private PessoaRepository repository;
     @MockBean
     private UsuarioService usuarioService;
-    @Lazy
-    @MockBean
-    private CategoriaService categoriaService;
     @Autowired
     private PessoaService service;
 

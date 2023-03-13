@@ -1,27 +1,23 @@
 package br.com.wszd.notas;
 
 import br.com.wszd.notas.dto.PessoaDTO;
-import br.com.wszd.notas.model.*;
-import br.com.wszd.notas.repository.CategoriaRepository;
+import br.com.wszd.notas.model.Categoria;
+import br.com.wszd.notas.model.Nota;
+import br.com.wszd.notas.model.Pessoa;
+import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.NotaRepository;
-import br.com.wszd.notas.service.*;
-import org.junit.jupiter.api.BeforeEach;
+import br.com.wszd.notas.service.CategoriaService;
+import br.com.wszd.notas.service.NotaService;
+import br.com.wszd.notas.service.PessoaService;
+import br.com.wszd.notas.service.UsuarioService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -34,24 +30,10 @@ public class NotaServiceTeste {
     private CategoriaService categoriaService;
     @MockBean
     private PessoaService pessoaService;
-    @Lazy
-    @MockBean
-    private LogsService logsService;
     @MockBean
     public UsuarioService usuarioService;
-    @MockBean
-    private EmailService emailService;
     @Autowired
     private NotaService service;
-
-    Usuario usuario;
-    Pessoa pessoa;
-
-    @BeforeEach
-    public void setUp(){
-        usuario = new Usuario("wes@test.com.br", "123456", new Pessoa());
-        pessoa = new Pessoa(null, "Teste","wes@test.com.br", "123456", null);
-    }
 
     @Test
     public void deveCriarNovaNota() throws Exception {
@@ -79,7 +61,7 @@ public class NotaServiceTeste {
     }
 
     @Test
-    public void deveRetornarNota() throws Exception{
+    public void deveRetornarNota() throws Exception {
 
         Nota nota = mock(Nota.class);
 

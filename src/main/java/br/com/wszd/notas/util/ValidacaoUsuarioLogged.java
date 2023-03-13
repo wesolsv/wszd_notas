@@ -1,6 +1,7 @@
 package br.com.wszd.notas.util;
 
 import br.com.wszd.notas.exception.ResourceBadRequestException;
+import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Usuario;
@@ -36,6 +37,15 @@ public final class ValidacaoUsuarioLogged {
         if (usuario.getPessoa() != null) {
             if (nota.getPessoa().getId() != usuario.getPessoa().getId()) {
                 throw new ResourceBadRequestException("O usuário não tem acesso a esta nota");
+            }
+        }
+    }
+
+    public static void validarUsuarioCategoria(Categoria categoria, Pessoa pessoa) {
+        log.info("Validando usuario");
+        if (pessoa != null) {
+            if (categoria.getPessoa().getId() != pessoa.getId()) {
+                throw new ResourceBadRequestException("O usuário não tem acesso a esta categoria");
             }
         }
     }

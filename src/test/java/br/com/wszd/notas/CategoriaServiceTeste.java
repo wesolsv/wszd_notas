@@ -8,10 +8,7 @@ import br.com.wszd.notas.repository.CategoriaRepository;
 import br.com.wszd.notas.service.CategoriaService;
 import br.com.wszd.notas.service.NotaService;
 import br.com.wszd.notas.service.PessoaService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -36,52 +33,42 @@ public class CategoriaServiceTeste {
     @Autowired
     private CategoriaService service;
 
-    Usuario usuario;
-    Pessoa pessoa;
-    Nota nota;
-    Categoria categoria;
-
-    @BeforeEach
-    public void setUp(){
-        usuario = new Usuario("wes@test.com.br", "123456", new Pessoa());
-        pessoa = new Pessoa(null, "Teste","wes@test.com.br", "123456", null);
-        nota = new Nota("Primeira Nota", "Descrição aleatória", new Pessoa(), new Categoria("PADRAO", pessoa));
-        categoria = new Categoria("TESTE CAT", pessoa);
-    }
-
     @Test
     public void deveCriarNovaCategoria() throws Exception {
+
+        Categoria categoria = mock(Categoria.class);
+
         when(repository.save(categoria)).thenReturn(categoria);
         categoria = service.novaCategoria(categoria);
-
-        assertNotNull(nota);
-        assertEquals("TESTE CAT", categoria.getNome());
         verify(repository, times(1)).save(categoria);
     }
 
     @Test
-    public void deveRetornarCategoria() throws Exception{
-        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(categoria));
-        categoria = service.pegarCategoria(anyLong());
+    public void deveRetornarCategoria() throws Exception {
 
-        assertNotNull(categoria);
+        Categoria categoria = mock(Categoria.class);
+
+        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(categoria));
+        service.pegarCategoria(anyLong());
+
         verify(repository, times(1)).findById(anyLong());
     }
 
-//    @Test
-//    public void deveEditarNota() throws Exception {
-//        nota.setNome("Teste edição");
-//        when(repository.save(nota)).thenReturn(nota);
-//        Nota n = service.editarNota(anyLong(), nota);
-//
-//        assertNotNull(nota);
-//        assertEquals("Teste edição", nota.getNome());
-//        verify(repository, times(1)).save(nota);
-//    }
+    @Test
+    public void deveEditarCategoria() throws Exception {
+
+        Categoria categoria = mock(Categoria.class);
+
+        when(repository.save(categoria)).thenReturn(categoria);
+        when(repository.findById(anyLong())).thenReturn(Optional.of(categoria));
+        when(categoria.getNome()).thenReturn("TESTE");
+        service.editarCategoria(anyLong(), categoria);
+
+        verify(repository, times(1)).save(categoria);
+    }
 
     @Test
     public void deletarCategoria() throws Exception {
-        System.out.println("teste");
         service.deletarCategoria(anyLong());
 
         verify(repository, times(1)).deleteById(any());

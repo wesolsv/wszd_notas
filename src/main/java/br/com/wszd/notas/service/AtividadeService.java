@@ -9,6 +9,7 @@ import br.com.wszd.notas.model.Logs;
 import br.com.wszd.notas.repository.AtividadeRepository;
 import br.com.wszd.notas.util.Operacoes;
 import br.com.wszd.notas.util.StatusAtividade;
+import br.com.wszd.notas.util.ValidacaoUsuarioLogged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +33,10 @@ public class AtividadeService {
     @Lazy
     @Autowired
     private EmailService emailService;
+
+    @Lazy
+    @Autowired
+    private UsuarioService usuarioService;
 
 
     public List<Atividade> listAtividades() {
@@ -58,8 +63,8 @@ public class AtividadeService {
 
     public AtividadeDTO pegarAtividadeDTO(Long id) {
 
-        validaRequisicao(id);
         Atividade atividade = pegarAtividade(id);
+        ValidacaoUsuarioLogged.validarUsuarioAtividade(atividade, usuarioService.retornaEmailUsuario());
 
         return new AtividadeDTO(atividade.getId(), atividade.getNome(), atividade.getConteudo(), atividade.getDataLembrete(), atividade.getStatus());
     }
@@ -87,9 +92,9 @@ public class AtividadeService {
     }
 
     public Atividade editarAtividade(Long id, Atividade nova) {
-        validaRequisicao(id);
 
         Atividade atividade = pegarAtividade(id);
+        ValidacaoUsuarioLogged.validarUsuarioAtividade(atividade, usuarioService.retornaEmailUsuario());
 
         Atividade atv = new Atividade.Builder()
                 .nome(nova.getNome())
@@ -109,24 +114,14 @@ public class AtividadeService {
 
     public void cancelarAtividade(Long id) {
 
-        validaRequisicao(id);
         Atividade atv = pegarAtividade(id);
+        ValidacaoUsuarioLogged.validarUsuarioAtividade(atv, usuarioService.retornaEmailUsuario());
+
         atv.setStatus(StatusAtividade.C);
         gerarLog(Operacoes.CANCELAR, atv.getClass().getSimpleName(), "Cancelamento da atividade " + atv.getNome(), atv.getPessoa().getEmail());
         repository.save(atv);
     }
 
-    public boolean validaRequisicao(Long id) {
-        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
-
-        Atividade atv = pegarAtividade(id);
-
-        if (atv.getPessoa().getId() != pessoa.getId()) {
-            throw new ResourceBadRequestException("O usuário não tem acesso a esta atividade");
-        }
-        return true;
-    }
 
     public void gerarLog(Operacoes operacao, String modulo, String detalhes, String nomeUsuario) {
         Logs log = new Logs(operacao, modulo, detalhes, nomeUsuario);

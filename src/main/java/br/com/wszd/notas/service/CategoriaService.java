@@ -8,6 +8,7 @@ import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.repository.CategoriaRepository;
 import br.com.wszd.notas.util.ValidacaoUsuarioLogged;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,9 @@ public class CategoriaService {
 
     @Autowired
     private NotaService notaService;
+    @Lazy
+    @Autowired
+    private UsuarioService usuarioService;
 
     public List<Categoria> listarTodasCategorias(){
         return repository.findAll();
@@ -46,7 +50,7 @@ public class CategoriaService {
 
         Categoria cat = pegarCategoria(id);
 
-        ValidacaoUsuarioLogged.validarUsuarioCategoria(cat, cat.getPessoa());
+        ValidacaoUsuarioLogged.validarUsuarioCategoria(cat, usuarioService.retornaEmailUsuario());
 
         cat.setNome(nova.getNome());
         repository.save(cat);

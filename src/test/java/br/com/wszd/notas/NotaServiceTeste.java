@@ -66,7 +66,7 @@ public class NotaServiceTeste {
         Nota nota = mock(Nota.class);
 
         when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(nota));
-        nota = service.pegarNotaCompleta(anyLong());
+        service.pegarNotaCompleta(anyLong());
 
         verify(repository, times(1)).findById(anyLong());
     }
@@ -98,7 +98,7 @@ public class NotaServiceTeste {
     }
 
     @Test
-    public void deletarUsuario() throws Exception {
+    public void deletarNota() throws Exception {
 
         Pessoa pessoa = new Pessoa.Builder()
                 .nome("teste pessoa")

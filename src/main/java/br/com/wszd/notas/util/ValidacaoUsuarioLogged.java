@@ -1,10 +1,7 @@
 package br.com.wszd.notas.util;
 
 import br.com.wszd.notas.exception.ResourceBadRequestException;
-import br.com.wszd.notas.model.Categoria;
-import br.com.wszd.notas.model.Nota;
-import br.com.wszd.notas.model.Pessoa;
-import br.com.wszd.notas.model.Usuario;
+import br.com.wszd.notas.model.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -41,11 +38,20 @@ public final class ValidacaoUsuarioLogged {
         }
     }
 
-    public static void validarUsuarioCategoria(Categoria categoria, Pessoa pessoa) {
+    public static void validarUsuarioCategoria(Categoria categoria, Usuario usuario) {
         log.info("Validando usuario");
-        if (pessoa != null) {
-            if (categoria.getPessoa().getId() != pessoa.getId()) {
+        if (usuario.getPessoa() != null) {
+            if (categoria.getPessoa().getId() != usuario.getPessoa().getId()) {
                 throw new ResourceBadRequestException("O usuário não tem acesso a esta categoria");
+            }
+        }
+    }
+
+    public static void validarUsuarioAtividade(Atividade atividade, Usuario usuario) {
+        log.info("Validando usuario");
+        if (usuario.getPessoa() != null) {
+            if (atividade.getPessoa().getId() != usuario.getPessoa().getId()) {
+                throw new ResourceBadRequestException("O usuário não tem acesso a esta atividade");
             }
         }
     }

@@ -1,11 +1,13 @@
 package br.com.wszd.notas;
 
+import br.com.wszd.notas.dto.NotaDTO;
 import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.NotaRepository;
+import br.com.wszd.notas.repository.PessoaRepository;
 import br.com.wszd.notas.service.CategoriaService;
 import br.com.wszd.notas.service.NotaService;
 import br.com.wszd.notas.service.PessoaService;
@@ -16,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Lazy;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -25,6 +28,8 @@ public class NotaServiceTeste {
 
     @MockBean
     private NotaRepository repository;
+    @MockBean
+    private PessoaRepository pessoaRepository;
     @Lazy
     @MockBean
     private CategoriaService categoriaService;
@@ -95,6 +100,27 @@ public class NotaServiceTeste {
 
         verify(repository, times(1)).findById(anyLong());
         verify(repository, times(1)).save(any(Nota.class));
+    }
+
+    @Test
+    public void deveRetornarListaNotas() throws Exception {
+
+        Pessoa pessoa = mock(Pessoa.class);
+        PessoaDTO pessoaDTO = mock(PessoaDTO.class);
+        Usuario usuario = mock(Usuario.class);
+
+        when(usuario.getNomeUsuario()).thenReturn("email@email.com");
+        when(pessoa.getEmail()).thenReturn("email@email.com");
+        when(pessoaDTO.getId()).thenReturn(0L);
+        when(pessoaService.pessoaByEmail(anyString())).thenReturn(pessoaDTO);
+        when(pessoaService.pegarPessoa(0L)).thenReturn(pessoa);
+        when(pessoaRepository.findByEmail(anyString())).thenReturn(pessoaDTO);
+        when(repository.pegarTodasNotas(pessoa)).thenReturn(Collections.emptyList());
+        when(usuarioService.retornaEmailUsuario()).thenReturn(usuario);
+
+        service.listarTodasNotas();
+
+        verify(repository, times(1)).pegarTodasNotas(pessoa);
     }
 
     @Test

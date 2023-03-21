@@ -7,6 +7,7 @@ import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Logs;
 import br.com.wszd.notas.model.Nota;
+import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.NotaRepository;
 import br.com.wszd.notas.util.Operacoes;
 import br.com.wszd.notas.util.ValidacaoUsuarioLogged;
@@ -41,8 +42,10 @@ public class NotaService {
     }
 
     public List<NotaDTO> listarTodasNotas(){
-        Object email = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        PessoaDTO pessoa = pessoaService.pessoaByEmail(email.toString());
+
+        Usuario usuario = usuarioService.retornaEmailUsuario();
+
+        PessoaDTO pessoa = pessoaService.pessoaByEmail(usuario.getNomeUsuario());
         return repository.pegarTodasNotas(pessoaService.pegarPessoa(pessoa.getId()));
     }
 

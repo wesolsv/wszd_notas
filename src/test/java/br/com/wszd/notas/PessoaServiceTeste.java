@@ -31,9 +31,11 @@ public class PessoaServiceTeste {
     public void deveCriarNovaPessoa() throws Exception {
 
         Pessoa pessoa = mock(Pessoa.class);
+        PessoaDTO p = mock(PessoaDTO.class);
 
         when(pessoa.getSenha()).thenReturn("123456");
         when(repository.save(any(Pessoa.class))).thenReturn(pessoa);
+        when(repository.findByEmail("teste@teste.com")).thenReturn(p);
         service.novaPessoa(pessoa);
 
         verify(repository, times(1)).save(any(Pessoa.class));

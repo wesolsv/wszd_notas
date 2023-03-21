@@ -2,16 +2,22 @@ package br.com.wszd.notas;
 
 import br.com.wszd.notas.dto.UserLoginDTO;
 import br.com.wszd.notas.dto.UserRoleDTO;
+import br.com.wszd.notas.model.Logs;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Role;
 import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.repository.UsuarioRepository;
+import br.com.wszd.notas.service.EmailService;
+import br.com.wszd.notas.service.LogsService;
 import br.com.wszd.notas.service.UsuarioService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,10 +27,17 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 public class UsuarioServiceTeste {
 
-    @Mock
+    @MockBean
     private UsuarioRepository repository;
-    @InjectMocks
+    @Autowired
     private UsuarioService service;
+
+    @MockBean
+    private LogsService logsService;
+
+    @Lazy
+    @MockBean
+    private EmailService emailService;
 
     @Test
     public void deveCriarUsuario() throws Exception {
@@ -93,7 +106,19 @@ public class UsuarioServiceTeste {
 
     @Test
     public void editarUsuario() throws Exception {
+        Pessoa pessoa = mock(Pessoa.class);
+        Usuario usuario = mock(Usuario.class);
 
+        when(pessoa.getEmail()).thenReturn("email@email.com");
+        when(pessoa.getSenha()).thenReturn("123456");
+        when(pessoa.getId()).thenReturn(0L);
+        when(usuario.getPessoa()).thenReturn(pessoa);
+        when(repository.findByNomeUsuario(anyString())).thenReturn(new Usuario());
+
+        service.editUser(pessoa);
+
+        verify(repository, times(1)).findByNomeUsuario(pessoa.getEmail());
+        verify(repository, times(1)).save(any(Usuario.class));
     }
 
     @Test

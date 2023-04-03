@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/pessoa")
@@ -33,15 +35,18 @@ public class PessoaController {
     }
 
     @PostMapping
-    private ResponseEntity<PessoaDTO> novaPessoa(@RequestBody Pessoa nova){
-        PessoaDTO res = service.novaPessoaDTO(nova);
+    public ResponseEntity<PessoaDTO> novaPessoa(@RequestBody @Valid Pessoa nova) {
+        PessoaDTO pessoaDTO = service.novaPessoaDTO(nova);
+        String id = UUID.randomUUID().toString();
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(res.getId())
+                .buildAndExpand(id)
                 .toUri();
-        return ResponseEntity.created(location).build();
+
+        return ResponseEntity.created(location).body(pessoaDTO);
     }
+
 
     @PutMapping("/{id}")
     private ResponseEntity<Pessoa> editarPessoa(@PathVariable Long id, @RequestBody Pessoa nova){

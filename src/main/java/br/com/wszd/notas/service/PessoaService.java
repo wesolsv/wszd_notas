@@ -67,7 +67,8 @@ public class PessoaService {
         Pessoa pessoaNova = novaPessoa(nova);
 
         usuarioService.novoUsuario(pessoaNova);
-        categoriaService.novaCategoria(new Categoria("PADRAO", nova));
+        Categoria categoriaPadrao = new Categoria("PADRAO", pessoaNova);
+        categoriaService.novaCategoria(categoriaPadrao);
         gerarLog(Operacoes.ADICIONAR, pessoaNova.getClass().getSimpleName(), "Inclusão de nova pessoa", nova.getEmail());
 
         return new PessoaDTO.Builder()

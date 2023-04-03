@@ -2,7 +2,6 @@ package br.com.wszd.notas.service;
 
 import br.com.wszd.notas.dto.AtividadeDTO;
 import br.com.wszd.notas.dto.PessoaDTO;
-import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Atividade;
 import br.com.wszd.notas.model.Logs;

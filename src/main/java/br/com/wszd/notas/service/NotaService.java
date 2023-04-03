@@ -37,7 +37,7 @@ public class NotaService {
     @Autowired
     private LogsService logsService;
 
-    public List<Nota> listarNotas(){
+    private List<Nota> listarNotas(){
         return repository.findAll();
     }
 
@@ -169,7 +169,7 @@ public class NotaService {
         gerarLog(Operacoes.DELETAR, "Nota", "Deletando todas as notas por ids" , email.toString());
     }
 
-    public void gerarLog(Operacoes operacao, String modulo, String detalhes, String nomeUsuario) {
+    private void gerarLog(Operacoes operacao, String modulo, String detalhes, String nomeUsuario) {
         Logs log = new Logs(operacao, modulo, detalhes, nomeUsuario);
         logsService.salvarLog(log);
     }

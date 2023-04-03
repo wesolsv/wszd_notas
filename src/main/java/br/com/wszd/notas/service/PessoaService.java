@@ -134,7 +134,7 @@ public class PessoaService {
         repository.deleteById(id);
     }
 
-    public void gerarLog(Operacoes operacao, String modulo, String detalhes, String nomeUsuario ){
+    private void gerarLog(Operacoes operacao, String modulo, String detalhes, String nomeUsuario ){
         Logs log = new Logs(operacao, modulo, detalhes, nomeUsuario);
         logsService.salvarLog(log);
     }

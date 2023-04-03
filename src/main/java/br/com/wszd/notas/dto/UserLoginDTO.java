@@ -10,6 +10,9 @@ public class UserLoginDTO {
         this.senha = senha;
     }
 
+    public UserLoginDTO() {
+    }
+
     public String getEmail() {
         return email;
     }

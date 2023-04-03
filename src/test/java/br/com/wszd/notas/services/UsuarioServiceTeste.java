@@ -1,4 +1,4 @@
-package br.com.wszd.notas;
+package br.com.wszd.notas.services;
 
 import br.com.wszd.notas.dto.UserLoginDTO;
 import br.com.wszd.notas.dto.UserRoleDTO;

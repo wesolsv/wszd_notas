@@ -1,4 +1,4 @@
-package br.com.wszd.notas;
+package br.com.wszd.notas.services;
 
 import br.com.wszd.notas.dto.NotaDTO;
 import br.com.wszd.notas.dto.PessoaDTO;

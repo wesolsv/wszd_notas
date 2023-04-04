@@ -78,7 +78,8 @@ public class NotaService {
         gerarLog(Operacoes.ADICIONAR, nova.getClass().getSimpleName(), "Adicionando uma nota " + notaAjustada.getNome(), notaAjustada.getPessoa().getEmail());
         emailService.enviarEmailNovaNota(nova.getPessoa(), notaAjustada);
 
-        return repository.save(nova);
+        notaAjustada = repository.save(notaAjustada);
+        return notaAjustada;
     }
 
     public Nota ajusteCategoria(Nota nova){

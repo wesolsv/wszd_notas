@@ -25,28 +25,28 @@ public class NotaController {
     }
 
     @GetMapping("/{id}")
-    private NotaDTO pegarPessoa (@PathVariable Long id){
+    private NotaDTO pegarNota (@PathVariable Long id){
         return service.pegarNota(id);
     }
 
     @PostMapping
     private ResponseEntity<Nota> novaNota(@RequestBody Nota nova){
-        Nota res = service.novaNota(nova);
+        service.novaNota(nova);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(res.getId())
+                .buildAndExpand("")
                 .toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     private ResponseEntity<Nota> editarNota(@PathVariable Long id, @RequestBody Nota nova){
-        Nota res = service.editarNota(id, nova);
+        service.editarNota(id, nova);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(res.getId())
+                .buildAndExpand("")
                 .toUri();
         return ResponseEntity.created(location).build();
     }

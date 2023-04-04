@@ -40,22 +40,22 @@ public class AtividadeController {
 
     @PostMapping
     private ResponseEntity<Atividade> novaAtividade(@RequestBody Atividade nova){
-        Atividade res = service.novaAtividade(nova);
+        service.novaAtividade(nova);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(res.getId())
+                .buildAndExpand("")
                 .toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     private ResponseEntity<Atividade> editarAtividade(@PathVariable Long id, @RequestBody Atividade nova){
-        Atividade res = service.editarAtividade(id, nova);
+        service.editarAtividade(id, nova);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(res.getId())
+                .buildAndExpand("")
                 .toUri();
         return ResponseEntity.created(location).build();
     }

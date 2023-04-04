@@ -32,13 +32,13 @@ public class NotaControllerTeste {
     private NotaService service;
 
     @InjectMocks
-    private NotaController pessoaController;
+    private NotaController notaController;
 
     private MockMvc mockMvc;
 
     @BeforeEach
     public  void setup(){
-        mockMvc = MockMvcBuilders.standaloneSetup(pessoaController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(notaController).build();
     }
 
     @Test

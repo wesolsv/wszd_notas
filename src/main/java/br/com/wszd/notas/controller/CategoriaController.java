@@ -29,22 +29,22 @@ public class CategoriaController {
 
     @PostMapping
     private ResponseEntity<Categoria> novaCategoria(@RequestBody Categoria nova){
-        Categoria res = service.novaCategoria(nova);
+        service.novaCategoria(nova);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(res.getId())
+                .buildAndExpand("")
                 .toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
     private ResponseEntity<Categoria> editarCategoria(@PathVariable Long id, @RequestBody Categoria nova){
-        Categoria res = service.editarCategoria(id, nova);
+        service.editarCategoria(id, nova);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(res.getId())
+                .buildAndExpand("")
                 .toUri();
         return ResponseEntity.created(location).build();
     }

@@ -73,8 +73,8 @@ public class PessoaControllerTeste {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/api/v1/pessoa/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(pessoa)))
-                        .andExpect(MockMvcResultMatchers.status().isCreated())
-                        .andReturn();
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andReturn();
 
         MockHttpServletResponse response = result.getResponse();
 
@@ -100,8 +100,8 @@ public class PessoaControllerTeste {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:8080/api/v1/pessoa/" + 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(pessoa)))
-                        .andExpect(MockMvcResultMatchers.status().isCreated())
-                        .andReturn();
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andReturn();
 
         MockHttpServletResponse response = result.getResponse();
 

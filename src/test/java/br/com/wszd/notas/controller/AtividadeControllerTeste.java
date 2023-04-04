@@ -1,11 +1,8 @@
 package br.com.wszd.notas.controller;
 
 import br.com.wszd.notas.dto.AtividadeDTO;
-import br.com.wszd.notas.dto.NotaDTO;
 import br.com.wszd.notas.model.Atividade;
-import br.com.wszd.notas.model.Nota;
 import br.com.wszd.notas.service.AtividadeService;
-import br.com.wszd.notas.service.NotaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,13 +32,13 @@ public class AtividadeControllerTeste {
     private AtividadeService service;
 
     @InjectMocks
-    private AtividadeController pessoaController;
+    private AtividadeController atividadeController;
 
     private MockMvc mockMvc;
 
     @BeforeEach
     public  void setup(){
-        mockMvc = MockMvcBuilders.standaloneSetup(pessoaController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(atividadeController).build();
     }
 
     @Test
@@ -76,8 +73,8 @@ public class AtividadeControllerTeste {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/api/v1/atividade/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(atividade)))
-                        .andExpect(MockMvcResultMatchers.status().isCreated())
-                        .andReturn();
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andReturn();
 
         MockHttpServletResponse response = result.getResponse();
 

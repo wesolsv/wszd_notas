@@ -1,11 +1,10 @@
 package br.com.wszd.notas.controller;
 
 import br.com.wszd.notas.dto.PessoaDTO;
-import br.com.wszd.notas.dto.SessaoDTO;
-import br.com.wszd.notas.dto.UserLoginDTO;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.service.PessoaService;
-import br.com.wszd.notas.service.UsuarioService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,12 +13,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.net.URI;
 
 import static org.mockito.Mockito.when;
 
@@ -65,14 +69,54 @@ public class PessoaControllerTeste {
         pessoadto.setId(pessoa.getId());
         pessoadto.setEmail(pessoa.getEmail());
 
-        when(service.novaPessoaDTO(pessoa)).thenReturn(pessoadto);
+        when(service.novaPessoaDTO(any(Pessoa.class))).thenReturn(pessoadto);
+        URI location = new URI("http://localhost:8080/api/v1/pessoa/1");
 
-        ResponseEntity<PessoaDTO> res = pessoaController.novaPessoa(pessoa);
-
-        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/api/v1/pessoa/")
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8080/api/v1/pessoa/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(pessoa)))
-                        .andExpect(MockMvcResultMatchers.status().isCreated());
+                        .andExpect(MockMvcResultMatchers.status().isCreated())
+                        .andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+
+        // Verifica se o corpo da resposta é o objeto de DTO simulado
+        assertThat(response.getContentAsString())
+                .isEqualTo(new ObjectMapper().writeValueAsString(pessoadto));
+
+        // Verifica se o cabeçalho de resposta Location contém a localização simulada
+        assertThat(response.getHeader("Location")).isEqualTo(location.toString());
+    }
+
+    @Test
+    public void deveEditarPessoa() throws Exception {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setId(1L);
+        pessoa.setEmail("teste@teste.com.br");
+
+        Pessoa pessoaret = new Pessoa();
+
+        when(service.editarPessoa(1L,pessoa)).thenReturn(pessoaret);
+        URI location = new URI("http://localhost:8080/api/v1/pessoa/" +1L+"/");
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("http://localhost:8080/api/v1/pessoa/" + 1L)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(pessoa)))
+                        .andExpect(MockMvcResultMatchers.status().isCreated())
+                        .andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+
+        // Verifica se o cabeçalho de resposta Location contém a localização simulada
+        assertThat(response.getHeader("Location")).isEqualTo(location.toString());
+    }
+
+    @Test
+    public void deveDeletarPessoa() throws Exception {
+        service.deletarPessoa(1L);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("http://localhost:8080/api/v1/pessoa/" + 1L))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
 }

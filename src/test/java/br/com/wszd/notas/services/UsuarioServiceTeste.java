@@ -2,7 +2,6 @@ package br.com.wszd.notas.services;
 
 import br.com.wszd.notas.dto.UserLoginDTO;
 import br.com.wszd.notas.dto.UserRoleDTO;
-import br.com.wszd.notas.model.Logs;
 import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.model.Role;
 import br.com.wszd.notas.model.Usuario;
@@ -11,8 +10,6 @@ import br.com.wszd.notas.service.EmailService;
 import br.com.wszd.notas.service.LogsService;
 import br.com.wszd.notas.service.UsuarioService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

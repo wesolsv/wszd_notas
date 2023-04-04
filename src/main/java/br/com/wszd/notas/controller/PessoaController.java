@@ -37,11 +37,10 @@ public class PessoaController {
     @PostMapping
     public ResponseEntity<PessoaDTO> novaPessoa(@RequestBody @Valid Pessoa nova) {
         PessoaDTO pessoaDTO = service.novaPessoaDTO(nova);
-        String id = UUID.randomUUID().toString();
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(id)
+                .buildAndExpand(pessoaDTO.getId())
                 .toUri();
 
         return ResponseEntity.created(location).body(pessoaDTO);
@@ -50,11 +49,11 @@ public class PessoaController {
 
     @PutMapping("/{id}")
     private ResponseEntity<Pessoa> editarPessoa(@PathVariable Long id, @RequestBody Pessoa nova){
-        Pessoa res = service.editarPessoa(id, nova);
+        service.editarPessoa(id, nova);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(res.getId())
+                .buildAndExpand("")
                 .toUri();
         return ResponseEntity.created(location).build();
     }

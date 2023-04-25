@@ -1,10 +1,8 @@
 package br.com.wszd.notas.dto;
 
-import br.com.wszd.notas.model.Pessoa;
 import br.com.wszd.notas.util.StatusAtividade;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 public class AtividadeDTO {

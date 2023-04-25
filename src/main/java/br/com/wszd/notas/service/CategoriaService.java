@@ -1,7 +1,5 @@
 package br.com.wszd.notas.service;
 
-import br.com.wszd.notas.dto.PessoaDTO;
-import br.com.wszd.notas.exception.ResourceBadRequestException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
 import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Pessoa;
@@ -9,7 +7,6 @@ import br.com.wszd.notas.repository.CategoriaRepository;
 import br.com.wszd.notas.util.ValidacaoUsuarioLogged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

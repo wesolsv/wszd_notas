@@ -1,6 +1,5 @@
 package br.com.wszd.notas.services;
 
-import br.com.wszd.notas.dto.NotaDTO;
 import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.model.Nota;

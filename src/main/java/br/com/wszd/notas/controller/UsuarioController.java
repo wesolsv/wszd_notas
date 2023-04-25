@@ -2,7 +2,6 @@ package br.com.wszd.notas.controller;
 
 import br.com.wszd.notas.dto.SessaoDTO;
 import br.com.wszd.notas.dto.UserLoginDTO;
-import br.com.wszd.notas.model.Usuario;
 import br.com.wszd.notas.service.UsuarioService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

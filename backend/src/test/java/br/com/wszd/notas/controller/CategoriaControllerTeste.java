@@ -1,7 +1,5 @@
 package br.com.wszd.notas.controller;
 
-import br.com.wszd.notas.dto.AtividadeDTO;
-import br.com.wszd.notas.model.Atividade;
 import br.com.wszd.notas.model.Categoria;
 import br.com.wszd.notas.service.CategoriaService;
 import com.fasterxml.jackson.databind.ObjectMapper;

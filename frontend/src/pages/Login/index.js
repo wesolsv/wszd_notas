@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../style/Login.css';
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -49,9 +49,11 @@ const Login = () => {
             required
           />
         </div>
+        <br/>
         <button type="submit">Entrar</button>
-      </form>
-      <Link to="/cadastro">Cadastrar novo usuário</Link>
+        <br/>
+        <Link to="/cadastro">Cadastrar novo usuario</Link>
+      </form>    
     </div>
   );
 };

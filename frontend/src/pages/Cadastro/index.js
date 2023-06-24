@@ -1,44 +1,35 @@
 import React, { useState } from 'react';
-import '../style/Cadastro.css';
+import './Cadastro.css';
 
 const Cadastro = () => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    cpf: '',
+    email: '',
+    address: '',
+  });
 
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
-  };
-
-  const handleCpfChange = (e) => {
-    setCpf(e.target.value);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleAddressChange = (e) => {
-    setAddress(e.target.value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aqui você pode adicionar a lógica para enviar os dados de cadastro para o servidor
-    // por exemplo, fazer uma requisição HTTP para salvar os dados
+    // Adicionar lógica para enviar os dados de cadastro para o backend
 
     // Resetar os campos após o envio
-    setName('');
-    setPhone('');
-    setCpf('');
-    setEmail('');
-    setAddress('');
+    setFormData({
+      name: '',
+      phone: '',
+      cpf: '',
+      email: '',
+      address: '',
+    });
   };
 
   return (
@@ -50,8 +41,9 @@ const Cadastro = () => {
           <input
             type="text"
             id="name"
-            value={name}
-            onChange={handleNameChange}
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
             required
           />
         </div>
@@ -60,8 +52,9 @@ const Cadastro = () => {
           <input
             type="text"
             id="phone"
-            value={phone}
-            onChange={handlePhoneChange}
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
             required
           />
         </div>
@@ -70,8 +63,9 @@ const Cadastro = () => {
           <input
             type="text"
             id="cpf"
-            value={cpf}
-            onChange={handleCpfChange}
+            name="cpf"
+            value={formData.cpf}
+            onChange={handleChange}
             required
           />
         </div>
@@ -80,8 +74,9 @@ const Cadastro = () => {
           <input
             type="email"
             id="email"
-            value={email}
-            onChange={handleEmailChange}
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
             required
           />
         </div>
@@ -90,8 +85,9 @@ const Cadastro = () => {
           <input
             type="text"
             id="address"
-            value={address}
-            onChange={handleAddressChange}
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
             required
           />
         </div>

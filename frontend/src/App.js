@@ -1,10 +1,8 @@
-import Login from "./components/Login";
+import RoutesApp from "./routes";
 
 function App() {
   return (
-    <div>
-      <Login />
-    </div>
+    <RoutesApp />
   );
 }
 

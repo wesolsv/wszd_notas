@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import '../Login.css';
+import { Link } from 'react-router-dom';
+import '../style/Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -15,8 +16,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aqui você pode adicionar a lógica para enviar os dados de login para o servidor
-    // por exemplo, fazer uma requisição HTTP para verificar as credenciais
+    // adicionar a lógica para enviar os dados de login o backend
 
     // Resetar os campos de email e senha após o envio
     setEmail('');
@@ -25,11 +25,12 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
+      <h2>Login Notes</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
+            placeholder='Digite seu e-mail'
             type="email"
             id="email"
             value={email}
@@ -40,6 +41,7 @@ const Login = () => {
         <div className="form-group">
           <label htmlFor="password">Senha:</label>
           <input
+            placeholder='Digite sua senha e-mail'
             type="password"
             id="password"
             value={password}
@@ -49,6 +51,7 @@ const Login = () => {
         </div>
         <button type="submit">Entrar</button>
       </form>
+      <Link to="/cadastro">Cadastrar novo usuário</Link>
     </div>
   );
 };

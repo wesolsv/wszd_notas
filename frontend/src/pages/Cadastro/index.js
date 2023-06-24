@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Cadastro.css';
 
 const Cadastro = () => {
   const [formData, setFormData] = useState({
     name: '',
-    phone: '',
-    cpf: '',
     email: '',
-    address: '',
+    password: '',
   });
 
   const handleChange = (e) => {
@@ -25,10 +24,8 @@ const Cadastro = () => {
     // Resetar os campos após o envio
     setFormData({
       name: '',
-      phone: '',
-      cpf: '',
       email: '',
-      address: '',
+      password: '',
     });
   };
 
@@ -48,28 +45,6 @@ const Cadastro = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="phone">Telefone:</label>
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="cpf">CPF:</label>
-          <input
-            type="text"
-            id="cpf"
-            name="cpf"
-            value={formData.cpf}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -81,17 +56,19 @@ const Cadastro = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="address">Endereço:</label>
+          <label htmlFor="password">Senha:</label>
           <input
-            type="text"
-            id="address"
-            name="address"
-            value={formData.address}
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
             onChange={handleChange}
             required
           />
         </div>
         <button type="submit">Cadastrar</button>
+        <br/>
+        <Link to="/">Retornar ao Login</Link>
       </form>
     </div>
   );

@@ -49,7 +49,6 @@ const Login = () => {
             required
           />
         </div>
-        <br/>
         <button type="submit">Entrar</button>
         <br/>
         <Link to="/cadastro">Cadastrar novo usuario</Link>

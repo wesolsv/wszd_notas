@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState} from 'react';
+import { Link, useNavigate  } from 'react-router-dom';
 import './style.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate  = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -19,6 +20,10 @@ const Login = () => {
     // adicionar a lógica para enviar os dados de login o backend
 
     // Resetar os campos de email e senha após o envio
+    const loginSuccessful = true;
+    if(loginSuccessful){
+      navigate('/list-notas');
+    }
     setEmail('');
     setPassword('');
   };

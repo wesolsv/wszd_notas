@@ -1,9 +1,10 @@
+import './style.css';
 
 const Header = () => {
     return (
-        <div>
+        <header>
             <h2>WeszDev</h2>
-        </div>
+        </header>
     )
 }
 

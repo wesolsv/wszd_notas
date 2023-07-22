@@ -1,13 +1,14 @@
 import React from 'react';
 import Logo from '../../components/Logo/Logo';
 import LoginForm from '../../components/LoginForm/LoginForm';
+import { LoginContainer } from './Login.styles';
 
 const Login = () => {
   return (
-    <div>
+    <LoginContainer>
       <Logo />
       <LoginForm />
-    </div>
+    </LoginContainer>
   );
 };
 

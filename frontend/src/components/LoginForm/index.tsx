@@ -24,7 +24,6 @@ const LoginForm = () => {
     }
     
     await signIn(data)
-    alert("teste")
   }
 
   return (

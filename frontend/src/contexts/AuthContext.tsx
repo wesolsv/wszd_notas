@@ -26,7 +26,7 @@ type AuthProviderProps = {
 
 export const AuthContext = createContext({} as AuthContextData)
 
-export function signOut(){
+export function signOut() {
   try {
     destroyCookie(undefined, '@wszdauth.token');
     //window.location.href = '/';
@@ -44,10 +44,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const response = await api.post('/usuario/login', {
         email, senha
       })
-      console.log(response.data)
-      
+
+      const { token } = response.data;
+      setCookie(undefined, '@wszdauth.token', token, {
+        maxAge: 60 * 60 * 24 * 30, //Expira em 1 mÊs
+        path: "/" //Quais caminhso terao acesso ao cookie
+      })
+
+      setUser({
+        email
+      })
+
+      //Passar para próximas requisições o token
+
+      api.defaults.headers['Authorization'] = `Bearer ${token}`
+
+      //Redirecionar o usuario para outra página
+      window.location.href = '/dashboard';
+
     } catch (error) {
-      
+      console.log("ERRO AO ACESSAR")
     }
   }
 

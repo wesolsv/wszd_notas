@@ -17,6 +17,7 @@ export const StyledButton  = styled.button`
   color: var(--white);
   border-radius: 0.5rem;
   transition: filter 0.2s;
+  margin-bottom: 1rem;
 
   &:disabled {
     cursor: not-allowed;

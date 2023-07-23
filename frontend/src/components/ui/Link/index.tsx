@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-export const CustomLink = styled(Link)`
-  /* Estilos do link personalizado aqui */
+const StyledNavLink = styled(NavLink)`
+  /* Estilos do NavLink personalizados aqui */
   color: var(--white);
   text-decoration: none;
   display: block; /* Para ocupar a largura total disponível */
@@ -20,4 +20,4 @@ export const CustomLink = styled(Link)`
   }
 `;
 
-export default CustomLink;
+export default StyledNavLink;

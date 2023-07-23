@@ -1,9 +1,14 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useState, useEffect } from "react";
+import { destroyCookie, setCookie, parseCookies } from 'nookies';
+// import { useNavigate } from 'react-router-dom';
+import { api } from "../services/apiClient";
+import { toast } from 'react-toastify';
 
 type AuthContextData = {
   user: UserProps;
   isAuthenticated: boolean;
   signIn: (credentials: SignInProps) => Promise<void>
+  signOut: () => void;
 }
 
 type UserProps = {
@@ -12,7 +17,7 @@ type UserProps = {
 
 type SignInProps = {
   email: string;
-  password: string;
+  senha: string;
 }
 
 type AuthProviderProps = {
@@ -21,17 +26,33 @@ type AuthProviderProps = {
 
 export const AuthContext = createContext({} as AuthContextData)
 
-export function AuthProvider({ children }: AuthProviderProps) {
+export function signOut(){
+  try {
+    destroyCookie(undefined, '@wszdauth.token');
+    //window.location.href = '/';
+  } catch (error) {
+    console.log("erro ao deslogar")
+  }
+}
 
-  const [user, setUser] = useState<UserProps | null>(null)
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<UserProps>()
   const isAuthenticated = !!user;
 
-  async function signIn() {
-    alert("Clicou Login")
+  async function signIn({ email, senha }: SignInProps) {
+    try {
+      const response = await api.post('/usuario/login', {
+        email, senha
+      })
+      console.log(response.data)
+      
+    } catch (error) {
+      
+    }
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   )

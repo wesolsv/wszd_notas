@@ -1,10 +1,10 @@
 import React from 'react';
-// import logoImage from '../../assets/images/logo.png'; // Caminho para o arquivo de imagem da logo
+import logoImage from '../../assets/img/logonotes.svg' // Caminho para o arquivo de imagem da logo
 
 const Logo = () => {
   return (
     <div>
-      {/* <img src={logoImage} alt="Logo" /> */}
+      {<img src={logoImage} alt="Logo" />}
     </div>
   );
 };

@@ -15,6 +15,8 @@ export const FormContainer = styled.form`
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    background-color: transparent;
+    color: white;
   }
 
   button {

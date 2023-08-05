@@ -25,11 +25,13 @@ public class WebSecurityConfig {
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
+        return http.cors()
+                .and()
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(SWAGGER_WHITELIST).permitAll()
                 .antMatchers(HttpMethod.POST,"/api/v1/pessoa").anonymous()
-                .antMatchers(HttpMethod.POST,"/api/v1/usuario/login").anonymous()
+                .antMatchers(HttpMethod.POST,"/api/v1/usuario/login").permitAll()
                 .antMatchers(HttpMethod.PUT,"/api/v1/pessoa/{id}").hasAnyRole( "USER", "ADMIN")
                 .antMatchers(HttpMethod.GET,"/api/v1/pessoa/{id}").hasAnyRole( "USER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE,"/api/v1/pessoa/**").hasAnyRole( "USER", "ADMIN")

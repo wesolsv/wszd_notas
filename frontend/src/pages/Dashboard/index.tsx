@@ -1,9 +1,12 @@
+import ListComponent from "../../components/ListComponent"
+import Head from "../../components/ui/Head"
 
 const Dashboard = () =>{
     return (
-        <div>
-            <h1>TESTE DASHBOARD</h1>
-        </div>
+        <>
+          <Head title="Lista de Notas" />
+          <ListComponent></ListComponent>
+        </>
     )
 }
 

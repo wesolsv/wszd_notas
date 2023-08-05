@@ -4,10 +4,7 @@ import br.com.wszd.notas.dto.NotaDTO;
 import br.com.wszd.notas.dto.PessoaDTO;
 import br.com.wszd.notas.exception.ResourceInternalException;
 import br.com.wszd.notas.exception.ResourceObjectNotFoundException;
-import br.com.wszd.notas.model.Categoria;
-import br.com.wszd.notas.model.Logs;
-import br.com.wszd.notas.model.Nota;
-import br.com.wszd.notas.model.Usuario;
+import br.com.wszd.notas.model.*;
 import br.com.wszd.notas.repository.NotaRepository;
 import br.com.wszd.notas.util.Operacoes;
 import br.com.wszd.notas.util.ValidacaoUsuarioLogged;
@@ -75,7 +72,9 @@ public class NotaService {
                 .categoriaNome(notaAjustada.getCategoriaNome())
                 .build();
 
-        gerarLog(Operacoes.ADICIONAR, nova.getClass().getSimpleName(), "Adicionando uma nota " + notaAjustada.getNome(), notaAjustada.getPessoa().getEmail());
+        Pessoa pessoa = pessoaService.pegarPessoa(notaAjustada.getPessoa().getId());
+
+        gerarLog(Operacoes.ADICIONAR, nova.getClass().getSimpleName(), "Adicionando uma nota " + notaAjustada.getNome(), pessoa.getEmail());
         emailService.enviarEmailNovaNota(nova.getPessoa(), notaAjustada);
 
         notaAjustada = repository.save(notaAjustada);

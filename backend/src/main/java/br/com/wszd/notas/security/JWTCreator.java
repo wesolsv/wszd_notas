@@ -18,7 +18,7 @@ public class JWTCreator {
                 .claim(ROLES_AUTHORITIES, checkRoles(jwtObject.getRoles()))
                 .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
-        return prefix + " " + token;
+        return token;
     }
     public static JWTObject createJwtObject(String token, String prefix, String key)
             throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException {

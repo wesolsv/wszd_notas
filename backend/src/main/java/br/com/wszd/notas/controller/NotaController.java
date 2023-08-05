@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/nota")
+@CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
 public class NotaController {
 
     @Autowired

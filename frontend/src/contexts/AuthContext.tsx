@@ -44,7 +44,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const response = await api.post('/usuario/login', {
         email, senha
       })
-
+      console.log(response)
       const { token } = response.data;
       setCookie(undefined, '@wszdauth.token', token, {
         maxAge: 60 * 60 * 24 * 30, //Expira em 1 mÊs
